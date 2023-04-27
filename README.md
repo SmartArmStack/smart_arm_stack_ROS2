@@ -1,5 +1,15 @@
-# Prerequisites
+# Packages TD;DR
 
+| Package                | Description                                                                                                              |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `sas_core`             | The part of the library that does not depend on `ROS2`.                                                                  |
+| `sas_common`           | Generic `ROS2` code used throughout the packages.                                                                        |
+| `sas_msgs`             | A wrapper for `ROS` messages that were made redundant in `ROS2`.                                                         |
+| `sas_conversions`      | Convert `ROS2` messages into `float`, `int`, or `dqrobotics` elements.                                                   |
+| `sas_robot_driver`     | `ROS2` nodes and libraries for creating servers and clients for robot configuration-space monitoring and control.        |
+| `sas_robot_kinematics` | `ROS2` nodes and libraries for creating servers and clients for kinematic-level robot task-space monitoring and control. |
+
+# Prerequisites
 1. [ROS 2 Humble](https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html)
 2. DQ Robotics CPP ([Development branch](https://dqroboticsgithubio.readthedocs.io/en/latest/installation/cpp.html#development-ppa))
 ```commandline

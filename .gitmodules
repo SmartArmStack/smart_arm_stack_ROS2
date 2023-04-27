@@ -18,3 +18,7 @@
 	path = sas_robot_driver
 	url = git@github.com:SmartArmStack/sas_robot_driver.git
 	branch = ros2
+[submodule "sas_robot_kinematics"]
+	path = sas_robot_kinematics
+	url = git@github.com:SmartArmStack/sas_robot_kinematics.git
+	branch = ros2
