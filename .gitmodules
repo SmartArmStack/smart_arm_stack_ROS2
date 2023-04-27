@@ -1,0 +1,20 @@
+[submodule "sas_core"]
+	path = sas_core
+	url = git@github.com:SmartArmStack/sas_core.git
+	branch = ros2
+[submodule "sas_common"]
+	path = sas_common
+	url = git@github.com:SmartArmStack/sas_common.git
+	branch = ros2
+[submodule "sas_msgs"]
+	path = sas_msgs
+	url = git@github.com:SmartArmStack/sas_msgs.git
+	branch = ros2
+[submodule "sas_conversions"]
+	path = sas_conversions
+	url = git@github.com:SmartArmStack/sas_conversions.git
+	branch = ros2
+[submodule "sas_robot_driver"]
+	path = sas_robot_driver
+	url = git@github.com:SmartArmStack/sas_robot_driver.git
+	branch = ros2
