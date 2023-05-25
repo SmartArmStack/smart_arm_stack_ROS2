@@ -1,3 +1,16 @@
+# Prerequisites
+1. [ROS 2 Humble](https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html)
+2. DQ Robotics CPP ([Development branch](https://dqroboticsgithubio.readthedocs.io/en/latest/installation/cpp.html#development-ppa))
+```commandline
+sudo add-apt-repository ppa:dqrobotics-dev/development
+sudo apt-get update
+sudo apt-get install libdqrobotics*
+```
+3. DQ Robotics Python ([pre-release](https://dqroboticsgithubio.readthedocs.io/en/latest/installation/python.html#installation-development))
+```commandline
+python3 -m pip install dqrobotics --pre
+```
+
 # Set up the installer
 
 Do the following **ONLY ONCE**
@@ -24,20 +37,7 @@ sas-ros2-update
 | `sas_robot_driver`     | `ROS2` nodes and libraries for creating servers and clients for robot configuration-space monitoring and control.        |
 | `sas_robot_kinematics` | `ROS2` nodes and libraries for creating servers and clients for kinematic-level robot task-space monitoring and control. |
 
-# Prerequisites
-1. [ROS 2 Humble](https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html)
-2. DQ Robotics CPP ([Development branch](https://dqroboticsgithubio.readthedocs.io/en/latest/installation/cpp.html#development-ppa))
-```commandline
-sudo add-apt-repository ppa:dqrobotics-dev/development
-sudo apt-get update
-sudo apt-get install libdqrobotics*
-```
-3. DQ Robotics Python ([pre-release](https://dqroboticsgithubio.readthedocs.io/en/latest/installation/python.html#installation-development))
-```commandline
-python3 -m pip install dqrobotics --pre
-```
-
-# Devel
+# Devel (The recommendation is to install the packages)
 
 ## Do once
 
