@@ -16,6 +16,7 @@ python3 -m pip install dqrobotics --pre
 Do the following **ONLY ONCE**
 
 ```sh
+sudo apt install curl jq -y
 echo "alias sas-ros2-update='wget https://raw.githubusercontent.com/SmartArmStack/smart_arm_stack_ROS2/main/install.sh && sh install.sh'" >> ~/.bashrc
 source ~/.bashrc
 ```
