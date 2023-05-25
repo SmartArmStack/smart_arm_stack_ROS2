@@ -9,6 +9,5 @@ wget $(curl -sL https://api.github.com/repos/smartarmstack/smart_arm_stack_ROS2/
 sudo dpkg -i  ros-humble-sas-*.deb
 # Remove temporary folder and itself
 cd ..
-pwd
 rm -r smart_arm_stack_ros2_installation
 rm -- "$0"
