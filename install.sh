@@ -1,5 +1,4 @@
 # Make a temporary directory
-cd ~
 mkdir -p smart_arm_stack_ros2_installation
 cd smart_arm_stack_ros2_installation
 # Remove existing packages, if any, and don't complain if there are none
