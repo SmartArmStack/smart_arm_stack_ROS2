@@ -7,7 +7,7 @@ sudo apt remove ros-humble-sas* -y || true
 wget $(curl -sL https://api.github.com/repos/smartarmstack/smart_arm_stack_ROS2/releases/latest | jq -r '.assets[].browser_download_url')
 # Install packages
 sudo dpkg -i  ros-humble-sas-*.deb
-# Remove temporary folder
+# Remove temporary folder and itself
+cd ..
 rm -r smart_arm_stack_ros2_installation
-# Remove itself
 rm -- "$0"
