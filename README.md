@@ -39,6 +39,10 @@ sas-ros2-update
 | `sas_robot_driver_denso` | A `sas_robot_driver` implementation for DensoWave's bCap controlled robots                                               |
 | `sas_robot_kinematics`   | `ROS2` nodes and libraries for creating servers and clients for kinematic-level robot task-space monitoring and control. |
 
+# Draft doxygen docs
+
+https://smartarmstack.github.io/docs_ros2
+
 # Devel (The recommendation is to install the packages)
 
 ## Do once
