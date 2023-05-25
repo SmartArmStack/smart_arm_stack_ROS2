@@ -29,14 +29,15 @@ sas-ros2-update
 
 # Package Summary
 
-| Package                | Description                                                                                                              |
-|------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| `sas_core`             | The part of the library that does not depend on `ROS2`.                                                                  |
-| `sas_common`           | Generic `ROS2` code used throughout the packages.                                                                        |
-| `sas_msgs`             | A wrapper for `ROS` messages that were made redundant in `ROS2`.                                                         |
-| `sas_conversions`      | Convert `ROS2` messages into `float`, `int`, or `dqrobotics` elements.                                                   |
-| `sas_robot_driver`     | `ROS2` nodes and libraries for creating servers and clients for robot configuration-space monitoring and control.        |
-| `sas_robot_kinematics` | `ROS2` nodes and libraries for creating servers and clients for kinematic-level robot task-space monitoring and control. |
+| Package                  | Description                                                                                                              |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `sas_core`               | The part of the library that does not depend on `ROS2`.                                                                  |
+| `sas_common`             | Generic `ROS2` code used throughout the packages.                                                                        |
+| `sas_msgs`               | A wrapper for `ROS` messages that were made redundant in `ROS2`.                                                         |
+| `sas_conversions`        | Convert `ROS2` messages into `float`, `int`, or `dqrobotics` elements.                                                   |
+| `sas_robot_driver`       | `ROS2` nodes and libraries for creating servers and clients for robot configuration-space monitoring and control.        |
+| `sas_robot_driver_denso` | A `sas_robot_driver` implementation for DensoWave's bCap controlled robots                                               |
+| `sas_robot_kinematics`   | `ROS2` nodes and libraries for creating servers and clients for kinematic-level robot task-space monitoring and control. |
 
 # Devel (The recommendation is to install the packages)
 
