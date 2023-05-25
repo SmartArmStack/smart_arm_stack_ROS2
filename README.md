@@ -1,13 +1,14 @@
 # Set up the installer
 
 Do the following **ONLY ONCE**
+
 ```sh
 echo "alias sas-ros2-update='wget https://raw.githubusercontent.com/SmartArmStack/smart_arm_stack_ROS2/main/install.sh && sh install.sh'" >> ~/.bashrc
 source ~/.bashrc
 ```
+
 # Install and update
 
-Run
 ```sh
 sas-ros2-update
 ```
