@@ -43,7 +43,9 @@ sas-ros2-update
 
 https://smartarmstack.github.io/docs_ros2
 
-# Devel (The recommendation is to install the packages)
+# Devel 
+
+For regular users, the recommendation is to install the `.deb` packages, not build from source.
 
 ## Do once
 
