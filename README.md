@@ -1,3 +1,16 @@
+# Package Summary
+
+| Package                      | License       | Description                                                                                                                  |
+|------------------------------|---------------|------------------------------------------------------------------------------------------------------------------------------|
+| `sas_core`                   | LGPL          | The part of the library that does not depend on `ROS2`.                                                                      |
+| `sas_common`                 | LGPL          | Generic `ROS2` code used throughout the packages.                                                                            |
+| `sas_msgs`                   | LGPL          | A wrapper for `ROS` messages that were made redundant in `ROS2`.                                                             |
+| `sas_conversions`            | LGPL          | Convert `ROS2` messages into `float`, `int`, or `dqrobotics` elements.                                                       |
+| `sas_robot_driver`           | LGPL          | `ROS2` nodes and libraries for creating servers and clients for robot configuration-space monitoring and control.            |
+| `sas_robot_driver_denso`     | LGPL          | A `sas_robot_driver` implementation for DensoWave's bCap controlled robots                                                   |
+| `sas_robot_kinematics`       | LGPL          | `ROS2` nodes and libraries for creating servers and clients for kinematic-level robot task-space monitoring and control.     |
+| `sas_operator_side_receiver` | Research Only | Receive messages from a [master device](https://github.com/SmartArmStack/smart_arm_master_windows) and expose them in `ROS2` |
+
 # Prerequisites
 1. [ROS 2 Humble](https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html)
 2. DQ Robotics CPP ([Development branch](https://dqroboticsgithubio.readthedocs.io/en/latest/installation/cpp.html#development-ppa))
@@ -26,18 +39,6 @@ source ~/.bashrc
 ```sh
 sas-ros2-update
 ```
-
-# Package Summary
-
-| Package                  | License | Description                                                                                                              |
-|--------------------------|---------|--------------------------------------------------------------------------------------------------------------------------|
-| `sas_core`               | LGPL    | The part of the library that does not depend on `ROS2`.                                                                  |
-| `sas_common`             | LGPL    | Generic `ROS2` code used throughout the packages.                                                                        |
-| `sas_msgs`               | LGPL    | A wrapper for `ROS` messages that were made redundant in `ROS2`.                                                         |
-| `sas_conversions`        | LGPL    | Convert `ROS2` messages into `float`, `int`, or `dqrobotics` elements.                                                   |
-| `sas_robot_driver`       | LGPL    | `ROS2` nodes and libraries for creating servers and clients for robot configuration-space monitoring and control.        |
-| `sas_robot_driver_denso` | LGPL    | A `sas_robot_driver` implementation for DensoWave's bCap controlled robots                                               |
-| `sas_robot_kinematics`   | LGPL    | `ROS2` nodes and libraries for creating servers and clients for kinematic-level robot task-space monitoring and control. |
 
 # Draft doxygen docs
 
