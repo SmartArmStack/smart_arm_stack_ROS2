@@ -1,5 +1,7 @@
 # Package Summary
 
+*Research only* packages cannot be used for commercial use.
+
 | Package                      | License       | Description                                                                                                                  |
 |------------------------------|---------------|------------------------------------------------------------------------------------------------------------------------------|
 | `sas_core`                   | LGPL          | The part of the library that does not depend on `ROS2`.                                                                      |
