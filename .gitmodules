@@ -25,3 +25,6 @@
 [submodule "sas_robot_driver_denso"]
 	path = sas_robot_driver_denso
 	url = git@github.com:SmartArmStack/sas_robot_driver_denso.git
+[submodule "sas_datalogger"]
+	path = sas_datalogger
+	url = git@github.com:SmartArmStack/sas_datalogger.git
