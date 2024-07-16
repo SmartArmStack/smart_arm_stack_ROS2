@@ -33,3 +33,6 @@
 [submodule "sas_robot_driver_kuka"]
 	path = sas_robot_driver_kuka
 	url = git@github.com:MarinhoLab/sas_robot_driver_kuka.git
+[submodule "sas_robot_driver_ur"]
+	path = sas_robot_driver_ur
+	url = git@github.com:MarinhoLab/sas_robot_driver_ur.git
