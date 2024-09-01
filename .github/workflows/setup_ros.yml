@@ -43,6 +43,7 @@ jobs:
           required-ros-distributions: ${{ matrix.ros_distribution }}
       - name: install DQ Robotics Devel
         run: |
+             sudo apt-get install software-properties-common
              sudo add-apt-repository ppa:dqrobotics-dev/development
              sudo apt-get update
              sudo apt-get install libdqrobotics*
