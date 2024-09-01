@@ -41,6 +41,11 @@ jobs:
         uses: ros-tooling/setup-ros@v0.7
         with:
           required-ros-distributions: ${{ matrix.ros_distribution }}
+      - name: install DQ Robotics Devel
+        run: |
+             sudo add-apt-repository ppa:dqrobotics-dev/development
+             sudo apt-get update
+             sudo apt-get install libdqrobotics*
       - name: build and test ROS 2
         if: ${{ matrix.ros_version == 2 }}
         uses: ros-tooling/action-ros-ci@v0.3
