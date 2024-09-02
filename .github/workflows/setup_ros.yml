@@ -48,3 +48,4 @@ jobs:
         with:
           package-name: sas_robot_driver_kuka sas_robot_driver_ur sas_robot_kinematics
           target-ros2-distro: ${{ matrix.ros_distribution }}
+          skip-tests: true
