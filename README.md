@@ -28,6 +28,8 @@ sudo apt-get install libdqrobotics libdqrobotics-interface-json11 libdqrobotics-
 python3 -m pip install dqrobotics --pre
 ```
 
+_**It is important to update the Python version to `4.7.0-2` if the interface is going to be used in Python.**_
+
 # Do once
 
 On the ROS2 workspace, e.g. `~/ros2_ws/src`
