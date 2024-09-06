@@ -9,50 +9,26 @@
 | `sas_msgs`                                 | LGPL          | A wrapper for `ROS` messages that were made redundant in `ROS2`.                                                              |
 | `sas_conversions`                          | LGPL          | Convert `ROS2` messages into `float`, `int`, or `dqrobotics` elements.                                                        |
 | `sas_robot_driver`                         | LGPL          | `ROS2` nodes and libraries for creating servers and clients for robot configuration-space monitoring and control.             |
-| `sas_robot_driver_denso`                   | LGPL          | A `sas_robot_driver` implementation for DensoWave's bCap controlled robots                                                    |
 | `sas_robot_kinematics`                     | LGPL          | `ROS2` nodes and libraries for creating servers and clients for kinematic-level robot task-space monitoring and control.      |
-| `sas_operator_side_receiver`               | Research Only | Receive messages from a [master device](https://github.com/SmartArmStack/smart_arm_master_windows) and expose them in `ROS2`. |
-| `sas_patient_side_manager`                 | Research Only | Connects `n` `OperatorSideMasterReceiverManipulatorManager` with `m` `sas_robot_kinematics`, for teleoperation.                |
-| `sas_robot_kinematics_constrained_multiarm`| Research Only | Kinematically control `m` robots in a centralized manner, with configurable VFIs                                              |
+| `sas_robot_driver_denso`                   | LGPL          | A `sas_robot_driver` implementation for DensoWave's bCap controlled robots                                                    |
+| `sas_robot_driver_kuka`                   | LGPL          | A `sas_robot_driver` implementation for Kuka (Sunrise cabinet, FRI)                                                    |
+| `sas_robot_driver_ur`                   | LGPL          | A `sas_robot_driver` implementation for UR                                                     |
+
 
 # Prerequisites
-1. [ROS 2 Humble](https://docs.ros.org/en/humble/Installation/Alternatives/Ubuntu-Development-Setup.html)
+1. [ROS 2 Jazzy](https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html)
 2. DQ Robotics CPP ([Development branch](https://dqroboticsgithubio.readthedocs.io/en/latest/installation/cpp.html#development-ppa))
 ```commandline
 sudo add-apt-repository ppa:dqrobotics-dev/development
 sudo apt-get update
-sudo apt-get install libdqrobotics*
+sudo apt-get install libdqrobotics libdqrobotics-interface-json11 libdqrobotics-interface-vrep-4.7.0-2
 ```
 3. DQ Robotics Python ([pre-release](https://dqroboticsgithubio.readthedocs.io/en/latest/installation/python.html#installation-development))
 ```commandline
 python3 -m pip install dqrobotics --pre
 ```
 
-# Set up the installer
-
-Do the following **ONLY ONCE**
-
-```sh
-sudo apt install curl jq -y
-echo "alias sas-ros2-update='wget https://raw.githubusercontent.com/SmartArmStack/smart_arm_stack_ROS2/main/install.sh && sh install.sh'" >> ~/.bashrc
-source ~/.bashrc
-```
-
-# Install and update
-
-```sh
-sas-ros2-update
-```
-
-# Draft doxygen docs
-
-https://smartarmstack.github.io/docs_ros2
-
-# Devel 
-
-For regular users, the recommendation is to install the `.deb` packages, not build from source.
-
-## Do once
+# Do once
 
 On the ROS2 workspace, e.g. `~/ros2_ws/src`
 
@@ -62,7 +38,7 @@ cd ~/ros2_ws/src
 git clone git@github.com:SmartArmStack/smart_arm_stack_ROS2.git sas --recursive
 ```
 
-## Every build
+# Every build
 
 ```commandline
 cd ~/ros2_ws/src
@@ -70,33 +46,9 @@ colcon build --symlink-install
 source install/setup.bash
 ```
 
-## Aliases
+# Opening a package on QTCreator
 
-Optionally, also install
-```commandline
-sudo apt install python3-colcon-clean
-```
-
-Then add the following aliases to `.bashrc`
-
-```commandline
-alias cdros2="cd ~/ros2_ws/src"
-alias cleanros2="cdros2 && colcon clean workspace"
-alias buildros2="cdros2 && colcon build --symlink-install && source install/setup.bash"
-```
-
-So that the following become `bash` commands become available 
-
-- `cdros2`: go to the source of your ros2 workspace.
-- `cleanros2`: clean the workspace, e.g. remove the `install`, `build`, and `log` folders.
-- `buildros2`: do a standard build of the workspace and source the `setup.bash`.
-
-## Opening a package on QTCreator
-
-1. First, open a terminal and run
-```commandline
-buildros2
-```
+1. First, be sure that the environment has been compiled and sourced as shown in the last step.
 
 2. In that same terminal, open QTCreator, e.g. by running
 ```commandline
