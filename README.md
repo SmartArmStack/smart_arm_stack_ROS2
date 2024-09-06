@@ -38,6 +38,12 @@ cd ~/ros2_ws/src
 git clone git@github.com:SmartArmStack/smart_arm_stack_ROS2.git sas --recursive
 ```
 
+then
+
+```commandline
+echo "source ~/ros2_ws/install/setup.bash" >> ~/.bashrc
+```
+
 # Every build
 
 ```commandline
