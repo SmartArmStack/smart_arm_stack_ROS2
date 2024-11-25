@@ -21,7 +21,7 @@
 ```commandline
 sudo add-apt-repository ppa:dqrobotics-dev/development
 sudo apt-get update
-sudo apt-get install libdqrobotics libdqrobotics-interface-json11 libdqrobotics-interface-vrep-4.7.0-2
+sudo apt-get install libdqrobotics libdqrobotics-interface-json11 libdqrobotics-interface-coppeliasim libdqrobotics-interface-coppeliasim-zmq
 ```
 3. DQ Robotics Python ([pre-release](https://dqroboticsgithubio.readthedocs.io/en/latest/installation/python.html#installation-development))
 ```commandline
@@ -50,7 +50,7 @@ echo "source ~/ros2_ws/install/setup.bash" >> ~/.bashrc
 
 ```commandline
 cd ~/ros2_ws/src
-colcon build --symlink-install
+colcon build 
 source install/setup.bash
 ```
 
