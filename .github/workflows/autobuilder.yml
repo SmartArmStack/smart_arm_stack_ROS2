@@ -11,3 +11,11 @@ jobs:
         run: |
           cd .devel
           chmod +x build_container.sh && ./build_container.sh
+      - name: Extract debian files
+        run: |
+          cd .devel
+          chmod +x build_container.sh && ./extract_debian_from_container.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: .devel/upload/
