@@ -3,7 +3,10 @@ name: Debian Builder # On Linux, iterates on all ROS 1 and ROS 2 distributions.
 on: [push,workflow_dispatch]
 jobs:
   test_docker: # On Linux, iterates on all ROS 1 and ROS 2 distributions.
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'ubuntu-latest-arm']
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -17,5 +20,5 @@ jobs:
           chmod +x build_container.sh && ./extract_debian_from_container.sh
       - uses: actions/upload-artifact@v4
         with:
-          name: release
+          name: ${{ matrix.os }}_artifact
           path: .devel/upload/
