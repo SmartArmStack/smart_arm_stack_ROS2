@@ -62,7 +62,7 @@ pkg_array=(
 
 if [ ! -f "$HOME/rosdep_ros2.yaml" ]; then
     # Create link
-    ln -s "£PWD/rosdep_ros2.yaml" "$HOME/rosdep_ros2.yaml"
+    ln -s "$PWD/rosdep_ros2.yaml" "$HOME/rosdep_ros2.yaml"
 
     # Rosdep
     sudo rosdep init
