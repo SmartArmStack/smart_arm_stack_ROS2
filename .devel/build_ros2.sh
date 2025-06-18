@@ -66,7 +66,7 @@ cd tmp_ros2
 #                        Clone all packages
 ####################################################################
 
-#Example "git@github.com:SmartArmStack/sas_core.git"
+#Example https://github.com/SmartArmStack/smart_arm_stack_ROS2.git
 for pkg_name in "${pkg_array[@]}"; do
   echo "Cloning ${pkg_name}"
   git clone -b "$rosv" https://github.com/SmartArmStack/"$pkg_name".git --recurse-submodules
