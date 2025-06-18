@@ -15,5 +15,4 @@ RUN echo "export ROS_DOMAIN_ID=$ROS_DOMAIN_ID" >> ~/.bashrc
 
 # SAS-RELATED THINGS
 RUN mkdir -p ~/sas_ws/src
-RUN cd ~/sas_ws/src
-RUN git clone --recurse-submodules -b jazzy https://github.com/SmartArmStack/smart_arm_stack_ROS2.git sas
+RUN cd ~/sas_ws/src && git clone --recurse-submodules -b jazzy https://github.com/SmartArmStack/smart_arm_stack_ROS2.git sas
