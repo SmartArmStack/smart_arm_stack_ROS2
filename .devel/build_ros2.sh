@@ -64,12 +64,14 @@ if [ ! -f "$HOME/rosdep_ros2.yaml" ]; then
     # Create link
     ln -s "£PWD/rosdep_ros2.yaml" "$HOME/rosdep_ros2.yaml"
 
-    # Update rosdep
+    # Rosdep
+    sudo rosdep init
+
+    # Add sas packages to rosdep
     cd ~ || exit 1
     echo "$HOME/rosdep_ros2.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/20-default.list
 
-    # Rosdep
-    sudo rosdep init
+    # Update rosdep
     rosdep update
 fi
 
