@@ -126,7 +126,7 @@ sudo apt-get remove ros-"$rosv"-sas* -y || true
 #                   Build and install incrementally
 ####################################################################
 
-combined_pkg_array=(  "${pkg_array[@]}" "${marinholab_pkg_array[@]}"  )
+combined_pkg_array=(  "${sas_pkg_array[@]}" "${marinholab_pkg_array[@]}"  )
 for pkg_name in "${combined_pkg_array[@]}"; do
   echo "Building ${pkg_name}"
   cd "$pkg_name"
