@@ -1,5 +1,5 @@
 # https://github.com/ros-tooling/setup-ros
-name: jazzy_and_rolling # On Linux, iterates on all ROS 1 and ROS 2 distributions.
+name: colcon build test # On Linux, iterates on all ROS 1 and ROS 2 distributions.
 on: [push,workflow_dispatch]
 jobs:
   test_docker: # On Linux, iterates on all ROS 1 and ROS 2 distributions.
