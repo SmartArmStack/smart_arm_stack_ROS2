@@ -44,7 +44,9 @@ fakeroot debian/rules binary
 ####################################################################
 #                        Array of packages
 ####################################################################
-pkg_array=(
+
+# Packages in https://github.com/SmartArmStack/
+sas_pkg_array=(
 "sas_core"
 "sas_msgs"
 "sas_common"
@@ -53,6 +55,10 @@ pkg_array=(
 "sas_robot_driver"
 "sas_robot_kinematics"
 "sas_robot_driver_denso"
+)
+
+# Packages in https://github.com/MarinhoLab/
+marinholab_pkg_array=(
 "sas_robot_driver_kuka"
 "sas_robot_driver_ur"
 )
@@ -89,10 +95,16 @@ cd tmp_ros2
 #                        Clone all packages
 ####################################################################
 
-#Example https://github.com/SmartArmStack/smart_arm_stack_ROS2.git
-for pkg_name in "${pkg_array[@]}"; do
+echo "Cloning packages at SmartArmStack"
+for pkg_name in "${sas_pkg_array[@]}"; do
   echo "Cloning ${pkg_name}"
   git clone -b "$rosv" https://github.com/SmartArmStack/"$pkg_name".git --recurse-submodules
+done
+
+echo "Cloning packages at MarinhoLab"
+for pkg_name in "${marinholab_pkg_array[@]}"; do
+  echo "Cloning ${pkg_name}"
+  git clone -b "$rosv" https://github.com/MarinhoLab/"$pkg_name".git --recurse-submodules
 done
 
 ####################################################################
@@ -114,7 +126,8 @@ sudo apt-get remove ros-"$rosv"-sas* -y || true
 #                   Build and install incrementally
 ####################################################################
 
-for pkg_name in "${pkg_array[@]}"; do
+combined_pkg_array=(  "${pkg_array[@]}" "${marinholab_pkg_array[@]}"  )
+for pkg_name in "${combined_pkg_array[@]}"; do
   echo "Building ${pkg_name}"
   cd "$pkg_name"
   PRE_BUILD
