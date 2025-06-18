@@ -69,7 +69,7 @@ if [ ! -f "$HOME/rosdep_ros2.yaml" ]; then
 
     # Add sas packages to rosdep
     cd ~ || exit 1
-    echo "$HOME/rosdep_ros2.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/20-default.list
+    echo "yaml file:///$HOME/rosdep_ros2.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/20-default.list
 
     # Update rosdep
     rosdep update
