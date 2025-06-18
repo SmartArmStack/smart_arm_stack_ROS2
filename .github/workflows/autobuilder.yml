@@ -6,7 +6,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: ['ubuntu-latest', 'ubuntu-latest-arm']
+        os: ['ubuntu-24.04', 'ubuntu-24.04-arm']
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
