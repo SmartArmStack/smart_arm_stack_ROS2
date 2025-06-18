@@ -7,7 +7,7 @@ sas_common:
 sas_clock:
   ubuntu: ['ros-jazzy-sas-clock']
 sas_conversions:
-  ubuntu: ["ros-jazzy-sas-conversions"]
+  ubuntu: ['ros-jazzy-sas-conversions']
 sas_datalogger:
   ubuntu: ['ros-jazzy-sas-datalogger']
 sas_robot_driver:
