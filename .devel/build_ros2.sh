@@ -57,6 +57,24 @@ pkg_array=(
 )
 
 ####################################################################
+# Update rosdep only once
+####################################################################
+
+if [ ! -f "$HOME/rosdep_ros2.yaml" ]; then
+    # Create link
+    ln -s "£PWD/rosdep_ros2.yaml" "$HOME/rosdep_ros2.yaml"
+
+    # Update rosdep
+    cd ~ || exit 1
+    echo "$HOME/rosdep_ros2.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/20-default.list
+
+    # Rosdep
+    sudo rosdep init
+    rosdep update
+fi
+
+
+####################################################################
 #                        Create tmp folder
 ####################################################################
 
