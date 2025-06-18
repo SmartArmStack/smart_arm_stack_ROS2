@@ -31,7 +31,7 @@ git commit -a -m "Shut up catkin"
 # Apparently this doesn't work for python-only packages, but we not care cause we cmake boyz
 catkin_prepare_release --no-push -y --version "$VERSION"
 # Automagically create the debian packagking directives
-bloom-generate rosdebian --os-name ubuntu --os-version "$ubuntuv" --ros-distro "rosv"
+bloom-generate rosdebian --os-name ubuntu --os-version "$ubuntuv" --ros-distro "$rosv"
 }
 
 BUILD_DEB(){
