@@ -52,6 +52,9 @@ pkg_array=(
 "sas_datalogger"
 "sas_robot_driver"
 "sas_robot_kinematics"
+"sas_robot_driver_denso"
+"sas_robot_driver_kuka"
+"sas_robot_driver_ur"
 )
 
 ####################################################################
