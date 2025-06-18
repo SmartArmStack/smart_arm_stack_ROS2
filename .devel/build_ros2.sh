@@ -25,6 +25,8 @@ catkin_generate_changelog --all || true
 catkin_generate_changelog || true
 # If we don't commit the modified CHANGELOG.rst, the catkin_prepare_release doesn't shut up about it
 git add CHANGELOG.rst
+git config user.email "builder@dontannoy.me"
+git config user.name "Builder"
 git commit -a -m "Shut up catkin"
 # Apparently this doesn't work for python-only packages, but we not care cause we cmake boyz
 catkin_prepare_release --no-push -y --version "$VERSION"
