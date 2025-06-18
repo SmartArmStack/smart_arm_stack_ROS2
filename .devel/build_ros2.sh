@@ -14,7 +14,7 @@ rosv="jazzy"
 # Ubuntu version
 ubuntuv="noble"
 # Architecture
-archname="amd64"
+arch=$(uname -i)
 
 PRE_BUILD() {
 # Remove the debian folder just in case. In ROS1 and catkin this was an issue
@@ -121,6 +121,6 @@ for pkg_name in "${pkg_array[@]}"; do
   cd ..
   # Install package but replace _ by -. E.g. sas_core becomes sas-core.
   # https://stackoverflow.com/questions/3306007/replace-a-string-in-shell-script-using-a-variable
-  sudo dpkg -i ros-"$rosv"-"${pkg_name//_/-}"_*"$ubuntuv"_"$archname".deb
+  sudo dpkg -i ros-"$rosv"-"${pkg_name//_/-}"_*"$ubuntuv"_"$arch".deb
   ${var//12345678/$replace}
 done
