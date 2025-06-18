@@ -1,0 +1,16 @@
+sas_core:
+  ubuntu: ['ros-jazzy-sas-core']
+sas_msgs:
+  ubuntu: ['ros-jazzy-sas-msgs']
+sas_common:
+  ubuntu: ['ros-jazzy-sas-common']
+sas_clock:
+  ubuntu: ['ros-jazzy-sas-clock']
+sas_conversions:
+  ubuntu: ["ros-jazzy-sas-conversions"]
+sas_datalogger:
+  ubuntu: ['ros-jazzy-sas-datalogger']
+sas_robot_driver:
+  ubuntu: ['ros-jazzy-sas-robot-driver']
+sas_robot_kinematics:
+  ubuntu: ['ros-jazzy-sas-robot-kinematics']
