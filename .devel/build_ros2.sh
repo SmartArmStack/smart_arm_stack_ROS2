@@ -59,7 +59,8 @@ sas_pkg_array=(
 
 # Packages in https://github.com/MarinhoLab/
 marinholab_pkg_array=(
-"sas_robot_driver_kuka"
+# "sas_robot_driver_kuka"  error: format not a string literal and no format arguments [-Werror=format-security] in kuka
+# file. Will have to address this somehow first.
 "sas_robot_driver_ur"
 )
 
