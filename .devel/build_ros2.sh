@@ -107,7 +107,7 @@ VERSION=$(date +"%-y.%-m.%-d%H%M%S")
 ####################################################################
 
 # Remove all related packages. The || true is so that it doesn't annoy us when something wasn't installed to begin with.
-sudo apt remove ros-"$rosv"-sas* -y || true
+sudo apt-get remove ros-"$rosv"-sas* -y || true
 
 ####################################################################
 #                   Build and install incrementally
