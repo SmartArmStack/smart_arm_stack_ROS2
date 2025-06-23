@@ -21,14 +21,13 @@ jobs:
         run: |
           cd .devel
           chmod +x extract_debian_from_container.sh && ./extract_debian_from_container.sh
-          cd upload
-          tree .
+          cd upload/extract
           cat SAS_VERSION >> "$GITHUB_OUTPUT"
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: debian-packages-${{ matrix.os }}
-          path: .devel/upload/*
+          path: .devel/upload/extract/*
 
   gh_release:
     needs: debian_builder
@@ -45,8 +44,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd release
-          cp extract/* .
-          rm -rf extract
           gh release create "$VERSION" \
               --repo="$GITHUB_REPOSITORY" \
               --title="${GITHUB_REPOSITORY#*/} ${VERSION}" \
@@ -65,8 +62,6 @@ jobs:
           PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
         run: |
           cd ppa
-          cp extract/* .
-          rm -rf extract
           ls -lah
           echo -e "$PGP_PRIVATE_KEY" | gpg --import
           gpg --armor --export "murilomarinho@ieee.org" > KEY.gpg
