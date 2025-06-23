@@ -38,6 +38,8 @@ jobs:
           PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
         run: |
           cd ppa
+          cp extract/* .
+          rm -rf extract
           ls -lah
           echo -e "$PGP_PRIVATE_KEY" | gpg --import
           gpg --armor --export "murilomarinho@ieee.org" > KEY.gpg
