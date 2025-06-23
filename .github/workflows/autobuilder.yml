@@ -38,6 +38,7 @@ jobs:
           PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
         run: |
           cd ppa
+          ls -lah
           echo -e "$PGP_PRIVATE_KEY" | gpg --import
           gpg --armor --export "murilomarinho@ieee.org" > KEY.gpg
           dpkg-scanpackages --multiversion . > Packages
@@ -47,7 +48,7 @@ jobs:
           gpg --default-key "murilomarinho@ieee.org" -abs -o - Release > Release.gpg
           gpg --default-key "murilomarinho@ieee.org" --clearsign -o - Release > InRelease
           echo "deb [signed-by=/etc/apt/trusted.gpg.d/smartarmstack_lgpl.gpg] https://smartarmstack.github.io/smart_arm_stack_ROS2 ./" > smartarmstack_lgpl.list
-          tree -H '.' -L 1 --noreport --dirsfirst -T 'PPA' -s -D --charset utf-8 -I "index.html" -o index.html
+          ls -lah
       - name: Upload PPA Files
         uses: actions/upload-artifact@v4
         with:
