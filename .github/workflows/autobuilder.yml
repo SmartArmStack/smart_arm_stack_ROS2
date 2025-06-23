@@ -24,7 +24,7 @@ jobs:
           name: debian-packages-${{ matrix.os }}
           path: .devel/upload/*
 
-  pre_deploy:
+  build_ppa:
     needs: debian_builder
 
     runs-on: ubuntu-latest
@@ -34,6 +34,8 @@ jobs:
           path: ppa/
           merge-multiple: true
       - name: Create package files # https://assafmo.github.io/2019/05/02/ppa-repo-hosted-on-github.html
+        env:
+          PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
         run: |
           cd ppa
           echo -e "$PGP_PRIVATE_KEY" | gpg --import
@@ -51,8 +53,8 @@ jobs:
           name: github-pages
           path: .devel/ppa/*
 
-  deploy:
-    needs: pre_deploy
+  deploy_page:
+    needs: build_ppa
 
     permissions:
       pages: write
