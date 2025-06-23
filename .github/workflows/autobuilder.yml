@@ -53,8 +53,7 @@ jobs:
       - name: Upload PPA Files
         uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages
-          path: ppa/*
+          path: ppa/
 
   deploy_ppa_page:
     needs: build_ppa
