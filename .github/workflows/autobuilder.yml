@@ -42,11 +42,12 @@ jobs:
           gpg --armor --export "murilomarinho@ieee.org" > KEY.gpg
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
-          sudo apt-get install apt-utils
+          sudo apt-get install apt-utils tree
           apt-ftparchive release . > Release
           gpg --default-key "murilomarinho@ieee.org" -abs -o - Release > Release.gpg
           gpg --default-key "murilomarinho@ieee.org" --clearsign -o - Release > InRelease
           echo "deb [signed-by=/etc/apt/trusted.gpg.d/smartarmstack_lgpl.gpg] https://smartarmstack.github.io/smart_arm_stack_ROS2 ./" > smartarmstack_lgpl.list
+          tree -H '.' -L 1 --noreport --dirsfirst -T 'PPA' -s -D --charset utf-8 -I "index.html" -o index.html
       - name: Upload PPA Files
         uses: actions/upload-artifact@v4
         with:
