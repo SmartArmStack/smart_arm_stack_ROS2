@@ -11,10 +11,9 @@ Because these are system-level packages, `brew install` isn't enough.
 docker buildx build -t sas_deb_builder --platform=linux/amd64 sas_deb_builder
 ```
 
-
 ## Failed attempts
 
-With brew, I was either unable to login or got the error below. After installing from docker desktop the version
+With brew, I was either unable to log in or got the error below. After installing from docker desktop, the version
 was clearly different so that might have been the issue.
 
 ```commandline

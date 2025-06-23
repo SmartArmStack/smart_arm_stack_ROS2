@@ -1,13 +1,12 @@
 name: Debian Builder
 on: [push,workflow_dispatch]
+
 jobs:
   debian_builder:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: ['ubuntu-24.04', 'ubuntu-24.04-arm']
-    permissions:
-      contents: write # release changes require contents write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,4 +18,51 @@ jobs:
         run: |
           cd .devel
           chmod +x build_container.sh && ./extract_debian_from_container.sh
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: debian-packages-${{ matrix.os }}
+          path: upload/*
 
+  pre_deploy:
+    needs: debian_builder
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4 # Download all artifacts
+        with:
+          path: .devel/ppa
+          merge-multiple: true
+      - name: Create package files # https://assafmo.github.io/2019/05/02/ppa-repo-hosted-on-github.html
+        run: |
+          cd .devel/ppa
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          sudo apt-get install apt-utils
+          apt-ftparchive release . > Release
+          echo -e "$PGP_PRIVATE_KEY" | gpg --import
+          gpg --default-key "murilomarinho@ieee.org" -abs -o - Release > Release.gpg
+          gpg --default-key "murilomarinho@ieee.org" --clearsign -o - Release > InRelease
+          echo "deb [signed-by=/etc/apt/trusted.gpg.d/smartarmstack.gpg] https://smartarmstack.github.io/smart_arm_stack_ROS2 ./" > smartarmstack.list
+      - name: Upload PPA Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: .devel/ppa/*
+
+  deploy:
+    needs: pre_deploy
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
