@@ -57,7 +57,7 @@ jobs:
           name: github-pages
           path: ppa/*
 
-  deploy_page:
+  deploy_ppa_page:
     needs: build_ppa
 
     permissions:
