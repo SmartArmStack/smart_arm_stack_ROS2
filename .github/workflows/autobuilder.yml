@@ -34,14 +34,13 @@ jobs:
     name: Create Release on GitHub
     runs-on: ubuntu-latest
     steps:
-      - env:
-          VERSION: ${{needs.debian_builder.outputs.version}}
       - uses: actions/download-artifact@v4 # Download all artifacts
         with:
           path: release/
           merge-multiple: true
       - name: Create release
         env:
+          VERSION: ${{needs.debian_builder.outputs.version}}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd release
