@@ -13,11 +13,11 @@ jobs:
       - name: Build image
         run: |
           cd .devel
-          chmod +x build_container.sh && ./build_container.sh
+          chmod +x build_container.sh && ./build_container.sh sas_deb_builder
       - name: Extract debian files
         run: |
           cd .devel
-          chmod +x build_container.sh && ./extract_debian_from_container.sh
+          chmod +x extract_debian_from_container.sh && ./extract_debian_from_container.sh
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
