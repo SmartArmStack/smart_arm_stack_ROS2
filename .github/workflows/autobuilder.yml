@@ -21,7 +21,9 @@ jobs:
         run: |
           cd .devel
           chmod +x extract_debian_from_container.sh && ./extract_debian_from_container.sh
-          cat upload/SAS_VERSION >> "$GITHUB_OUTPUT"
+          cd upload
+          tree .
+          cat SAS_VERSION >> "$GITHUB_OUTPUT"
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
