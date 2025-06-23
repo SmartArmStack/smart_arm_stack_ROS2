@@ -44,11 +44,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd release
-          gh release create "$VERSION" \
+          gh release create v"$VERSION" \
+              *.deb \
               --repo="$GITHUB_REPOSITORY" \
               --title="${GITHUB_REPOSITORY#*/} ${VERSION}" \
               --generate-notes
-
   build_ppa:
     needs: debian_builder
     runs-on: ubuntu-latest
