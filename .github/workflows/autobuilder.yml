@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
-          path: .devel/ppa/*
+          path: ppa/*
 
   deploy_page:
     needs: build_ppa
