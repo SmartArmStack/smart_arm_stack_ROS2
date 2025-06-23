@@ -34,6 +34,8 @@ jobs:
     name: Create Release on GitHub
     runs-on: ubuntu-latest
     steps:
+      - env:
+          VERSION: ${{needs.debian_builder.outputs.version}}
       - uses: actions/download-artifact@v4 # Download all artifacts
         with:
           path: release/
@@ -45,9 +47,9 @@ jobs:
           cd release
           cp extract/* .
           rm -rf extract
-          gh release create "$tag" \
+          gh release create "$VERSION" \
               --repo="$GITHUB_REPOSITORY" \
-              --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+              --title="${GITHUB_REPOSITORY#*/} ${VERSION}" \
               --generate-notes
 
   build_ppa:
