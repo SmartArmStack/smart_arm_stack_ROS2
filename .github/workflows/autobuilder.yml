@@ -49,6 +49,7 @@ jobs:
           gpg --default-key "murilomarinho@ieee.org" -abs -o - Release > Release.gpg
           gpg --default-key "murilomarinho@ieee.org" --clearsign -o - Release > InRelease
           echo "deb [signed-by=/etc/apt/trusted.gpg.d/smartarmstack_lgpl.gpg] https://smartarmstack.github.io/smart_arm_stack_ROS2 ./" > smartarmstack_lgpl.list
+          tree -H '.' -L 1 --noreport --charset utf-8 | sed -e '/<hr>/,+7d' > index.html
           ls -lah
       - name: Upload PPA Files
         uses: actions/upload-pages-artifact@v3
