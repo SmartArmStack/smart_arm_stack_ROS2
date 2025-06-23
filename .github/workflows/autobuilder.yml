@@ -7,6 +7,8 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-24.04', 'ubuntu-24.04-arm']
+    outputs:
+      version: ${{ steps.extract.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -15,18 +17,41 @@ jobs:
           cd .devel
           chmod +x build_container.sh && ./build_container.sh sas_deb_builder
       - name: Extract debian files
+        id: extract
         run: |
           cd .devel
           chmod +x extract_debian_from_container.sh && ./extract_debian_from_container.sh
+          cd ~/extract
+          cat SAS_VERSION >> "$GITHUB_OUTPUT"
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: debian-packages-${{ matrix.os }}
           path: .devel/upload/*
 
+  gh_release:
+    needs: debian_builder
+    name: Create Release on GitHub
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4 # Download all artifacts
+        with:
+          path: release/
+          merge-multiple: true
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd release
+          cp extract/* .
+          rm -rf extract
+          gh release create "$tag" \
+              --repo="$GITHUB_REPOSITORY" \
+              --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+              --generate-notes
+
   build_ppa:
     needs: debian_builder
-
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4 # Download all artifacts
