@@ -115,6 +115,7 @@ done
 # Remove any leading zeros otherwise the version name will not fit the bloom requirements
 # https://unix.stackexchange.com/questions/79371/removing-leading-zeros-from-date-output
 VERSION=$(date +"%-y.%-m.%-d%H%M%S")
+echo "version=${VERSION}" > SAS_VERSION
 
 ####################################################################
 #                   Remove current installation
