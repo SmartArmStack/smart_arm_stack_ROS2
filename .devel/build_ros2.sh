@@ -48,20 +48,20 @@ fakeroot debian/rules binary
 # Packages in https://github.com/SmartArmStack/
 sas_pkg_array=(
 "sas_core"
-"sas_msgs"
-"sas_common"
-"sas_conversions"
-"sas_datalogger"
-"sas_robot_driver"
-"sas_robot_kinematics"
-"sas_robot_driver_denso"
+# "sas_msgs"
+# "sas_common"
+# "sas_conversions"
+# "sas_datalogger"
+# "sas_robot_driver"
+# "sas_robot_kinematics"
+# "sas_robot_driver_denso"
 )
 
 # Packages in https://github.com/MarinhoLab/
 marinholab_pkg_array=(
 # "sas_robot_driver_kuka"  error: format not a string literal and no format arguments [-Werror=format-security] in kuka
 # file. Will have to address this somehow first.
-"sas_robot_driver_ur"
+# "sas_robot_driver_ur"
 )
 
 ####################################################################
