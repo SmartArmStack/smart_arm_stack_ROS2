@@ -22,7 +22,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: debian-packages-${{ matrix.os }}
-          path: upload/*
+          path: .devel/upload/*
 
   pre_deploy:
     needs: debian_builder
