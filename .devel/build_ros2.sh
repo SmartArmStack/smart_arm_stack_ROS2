@@ -97,7 +97,7 @@ cd "$TMP_DIR"
 echo "
 #!/bin/bash
 rm -r $TMP_DIR
-" > "$HOME/src/sas/.devel/remove_tmp_folder.sh"
+" > "$HOME/sas_ws/src/sas/.devel/remove_tmp_folder.sh"
 
 ####################################################################
 #                        Clone all packages
