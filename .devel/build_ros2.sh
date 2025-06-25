@@ -68,16 +68,16 @@ marinholab_pkg_array=(
 # Update rosdep only once
 ####################################################################
 
-if [ ! -f "$HOME/rosdep_ros2.yaml" ]; then
+if [ ! -f "$HOME/rosdep_sas_lgpl.yaml" ]; then
     # Create link
-    ln -s "$PWD/rosdep_ros2.yaml" "$HOME/rosdep_ros2.yaml"
+    ln -s "$PWD/rosdep_sas_lgpl.yaml" "$HOME/rosdep_sas_lgpl.yaml"
 
     # Rosdep
     sudo rosdep init
 
     # Add sas packages to rosdep
     cd ~ || exit 1
-    echo "yaml file:///$HOME/rosdep_ros2.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/20-default.list
+    echo "yaml file:///$HOME/rosdep_sas_lgpl.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/20-default.list
 
     # Update rosdep
     rosdep update
@@ -88,16 +88,16 @@ fi
 #                     Create and cd tmp folder
 ####################################################################
 
-TMP_DIR=`mktemp -d`
+TMP_DIR=$(mktemp -d)
 echo "Temporary dir $TMP_DIR will be used for this build."
-cd $TMP_DIR
+cd "$TMP_DIR"
 
 # Create temporary folder removal script. We do not attempt to do that
 # here because a wrong rm can be catastrophic. Run at your own risk.
 echo "
 #!/bin/bash
 rm -r $TMP_DIR
-" > "~/sas_ws/src/sas/.devel/remove_tmp_folder.sh"
+" > "$HOME/src/sas/.devel/remove_tmp_folder.sh"
 
 ####################################################################
 #                        Clone all packages
