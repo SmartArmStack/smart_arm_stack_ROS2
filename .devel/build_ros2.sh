@@ -88,16 +88,9 @@ fi
 #                     Create and cd tmp folder
 ####################################################################
 
-TMP_DIR=$(mktemp -d)
-echo "Temporary dir $TMP_DIR will be used for this build."
-cd "$TMP_DIR"
-
-# Create temporary folder removal script. We do not attempt to do that
-# here because a wrong rm can be catastrophic. Run at your own risk.
-echo "
-#!/bin/bash
-rm -r $TMP_DIR
-" > "$HOME/sas_ws/src/sas/.devel/remove_tmp_folder.sh"
+rm -rf tmp_ros2
+mkdir tmp_ros2
+cd tmp_ros2
 
 ####################################################################
 #                        Clone all packages
