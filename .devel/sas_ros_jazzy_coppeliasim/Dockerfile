@@ -14,5 +14,5 @@ ENV COPPELIASIM_FILE=$COPPELIASIM_FILE
 SHELL ["/bin/bash", "-c"]
 ENV BASH_ENV="/etc/bash_env"
 
-RUN chmod +x ~/sas_ws/src/sas/.devel/scripts/setup_sas_ros_jazzy_coppeliasim.sh
-RUN cd ~/sas_ws/src/sas/.devel/scripts && bash -c "./setup_sas_ros_jazzy_coppeliasim.sh"
+RUN chmod +x ~/sas_install/sas/.devel/scripts/setup_sas_ros_jazzy_coppeliasim.sh
+RUN cd ~/sas_install/sas/.devel/scripts && bash -c "./setup_sas_ros_jazzy_coppeliasim.sh"
