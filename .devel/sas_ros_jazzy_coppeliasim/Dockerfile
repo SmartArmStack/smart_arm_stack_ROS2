@@ -14,7 +14,5 @@ ENV COPPELIASIM_FILE=$COPPELIASIM_FILE
 SHELL ["/bin/bash", "-c"]
 ENV BASH_ENV="/etc/bash_env"
 
-# Install CoppeliaSim.
-RUN cd ~/git/docker_recipes && git pull
-RUN chmod +x ~/git/docker_recipes/dependencies/install_coppeliasim.sh
-RUN bash -c '~/git/docker_recipes/dependencies/install_coppeliasim.sh'
+RUN chmod +x ~/sas_ws/src/sas/.devel/scripts/setup_sas_ros_jazzy_coppeliasim.sh
+RUN cd ~/sas_ws/src/sas/.devel/scripts && bash -c "./setup_sas_ros_jazzy_coppeliasim.sh"

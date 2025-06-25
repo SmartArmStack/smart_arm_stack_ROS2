@@ -1,0 +1,24 @@
+#!/bin/bash
+# Based on https://github.com/Adorno-Lab/docker_recipes/blob/8a94fb42c7fc7579343f83584c00108536366faf/dependencies/install_coppeliasim.sh#L1
+
+apt-get update -q
+apt-get install -y --no-install-recommends \
+    vim tar xz-utils \
+    libx11-6 libxcb1 libxau6 libgl1-mesa-dev \
+    xvfb dbus-x11 x11-utils libxkbcommon-x11-0 \
+    libavcodec-dev libavformat-dev libswscale-dev \
+    python3 python3-pip python3-venv libraw1394-11 libmpfr6 \
+    libusb-1.0-0
+
+python3 -m install pyzmq cbor2 --break-system-packages
+
+mkdir -p ~/utils
+echo "Downloading ${COPPELIASIM_FILE}."
+cd ~/utils || exit 1
+curl --progress-bar --remote-name --location \
+https://downloads.coppeliarobotics.com/"${COPPELIASIM_RELEASE}"/"${COPPELIASIM_FILE}" || exit 1
+tar -xf ~/utils/"${COPPELIASIM_FILE}" \
+echo "export COPPELIASIM_PATH='~/utils/CoppeliaSim_Edu_${COPPELIASIM_RELEASE}_${UBUNTU_VERSION}'">> ~/.bashrc
+# shellcheck disable=SC2016
+# Suppressed because we want to use $COPPELIASIM_PATH in bashrc.
+echo 'alias coppeliasim=$COPPELIASIM_PATH/coppeliaSim.sh & '>> ~/.bashrc
