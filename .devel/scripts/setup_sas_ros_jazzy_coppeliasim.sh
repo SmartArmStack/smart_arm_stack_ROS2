@@ -23,6 +23,4 @@ https://downloads.coppeliarobotics.com/"${COPPELIASIM_RELEASE}"/"${COPPELIASIM_F
 tar -xf "${COPPELIASIM_FILE}"
 
 echo "export COPPELIASIM_PATH='${HOME}/utils/CoppeliaSim_Edu_${COPPELIASIM_RELEASE}_${UBUNTU_VERSION}'">> ~/.bashrc
-# shellcheck disable=SC2016
-# Suppressed because we want to use $COPPELIASIM_PATH in bashrc.
-echo 'alias coppeliasim=$COPPELIASIM_PATH/coppeliaSim.sh & '>> ~/.bashrc
+echo "alias coppeliasim='$COPPELIASIM_PATH/coppeliaSim.sh &'">> ~/.bashrc
