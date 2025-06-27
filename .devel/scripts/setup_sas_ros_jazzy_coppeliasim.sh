@@ -20,7 +20,9 @@ echo "Downloading ${COPPELIASIM_FILE}."
 curl --progress-bar --remote-name --location \
 https://downloads.coppeliarobotics.com/"${COPPELIASIM_RELEASE}"/"${COPPELIASIM_FILE}" || exit 1
 
+echo "Extracting ${COPPELIASIM_FILE}."
 tar -xf "${COPPELIASIM_FILE}"
 
+echo "Setting environment variables for ${COPPELIASIM_FILE}."
 echo "export COPPELIASIM_PATH='${HOME}/utils/CoppeliaSim_Edu_${COPPELIASIM_RELEASE}_${UBUNTU_VERSION}'">> ~/.bashrc
-echo "alias coppeliasim='$COPPELIASIM_PATH/coppeliaSim.sh &'">> ~/.bashrc
+echo 'alias coppeliasim="$COPPELIASIM_PATH/coppeliaSim.sh &"'>> ~/.bashrc
