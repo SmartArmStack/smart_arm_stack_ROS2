@@ -1,8 +1,9 @@
 name: SAS Debian Builder
-on: [workflow_dispatch]
+on: [push, workflow_dispatch]
 
 jobs:
   debian_builder:
+    name: Debian Builder
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -50,6 +51,7 @@ jobs:
               --title="${GITHUB_REPOSITORY#*/} ${VERSION}" \
               --generate-notes
   build_ppa:
+    name: Build PPA
     needs: debian_builder
     runs-on: ubuntu-latest
     steps:
@@ -79,6 +81,7 @@ jobs:
           path: ppa/
 
   deploy_ppa_page:
+    name: Deploy PPA
     needs: build_ppa
 
     permissions:
@@ -94,8 +97,8 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-
   deploy_docker_image:
+    name: Deploy Docker Image with SAS
     needs: deploy_ppa_page
 
     runs-on: ubuntu-latest
@@ -114,10 +117,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push sas_ros_jazzy
+      - name: Build and push sas
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          file: .devel/sas_ros_jazzy/Dockerfile
-          tags: ${{ vars.DOCKER_USERNAME }}/sas_ros_jazzy
+          file: .devel/sas/Dockerfile
+          tags: |
+           ${{ vars.DOCKER_USERNAME }}/sas:latest
+           ${{ vars.DOCKER_USERNAME }}/sas:jazzy
