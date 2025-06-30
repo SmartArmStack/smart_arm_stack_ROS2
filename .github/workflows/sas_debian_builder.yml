@@ -1,5 +1,5 @@
-name: Debian Builder
-on: [push, workflow_dispatch]
+name: SAS Debian Builder
+on: [workflow_dispatch]
 
 jobs:
   debian_builder:

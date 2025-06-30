@@ -1,13 +1,10 @@
-name: docker_with_coppeliasim.yml
+name: docker_with_coppeliasim_dispatch.yml
 on:
-  workflow_run:
-    workflows: [Debian Builder]
-    types: [completed]
+  workflow_dispatch:
 
 jobs:
-  on-success:
+  on-dispatch:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v2
       - name: Log in to Docker Hub
@@ -22,10 +19,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push sas_ros_jazzy_coppeliasim
+      - name: Build and push noble_coppeliasim
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64
           push: true
-          file: .devel/sas_ros_jazzy_coppeliasim/Dockerfile
-          tags: ${{ vars.DOCKER_USERNAME }}/sas_ros_jazzy_coppeliasim
+          file: .devel/noble_coppeliasim/Dockerfile
+          tags: | 
+              ${{ vars.DOCKER_USERNAME }}/noble_coppeliasim:latest
+              ${{ vars.DOCKER_USERNAME }}/noble_coppeliasim:470rev4
