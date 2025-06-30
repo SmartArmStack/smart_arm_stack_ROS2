@@ -4,7 +4,7 @@ set -e
 
 apt-get update -q
 apt-get install -y --no-install-recommends \
-    vim tar xz-utils \
+    curl tar xz-utils \
     libx11-6 libxcb1 libxau6 libgl1-mesa-dev \
     xvfb dbus-x11 x11-utils libxkbcommon-x11-0 \
     libavcodec-dev libavformat-dev libswscale-dev \
