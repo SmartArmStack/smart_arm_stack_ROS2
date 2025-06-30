@@ -10,6 +10,9 @@ apt-get install -y --no-install-recommends \
     libavcodec-dev libavformat-dev libswscale-dev \
     python3 python3-pip python3-venv libraw1394-11 libmpfr6 \
     libusb-1.0-0
+# Clean up unused packages
+apt-get clean
+rm -rf /var/lib/apt/lists/*
 
 python3 -m pip install pyzmq cbor2 --break-system-packages
 
