@@ -25,6 +25,8 @@ https://downloads.coppeliarobotics.com/"${COPPELIASIM_RELEASE}"/"${COPPELIASIM_F
 
 echo "Extracting ${COPPELIASIM_FILE}."
 tar -xf "${COPPELIASIM_FILE}"
+# Remove downloaded file to save space
+rm "${COPPELIASIM_FILE}"
 
 echo "Setting environment variables for ${COPPELIASIM_FILE}."
 echo "export COPPELIASIM_PATH='${HOME}/utils/CoppeliaSim_Edu_${COPPELIASIM_RELEASE}_${UBUNTU_VERSION}'">> ~/.bashrc
