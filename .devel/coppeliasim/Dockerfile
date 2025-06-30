@@ -14,6 +14,9 @@ ENV COPPELIASIM_FILE=$COPPELIASIM_FILE
 SHELL ["/bin/bash", "-c"]
 ENV BASH_ENV="/etc/bash_env"
 
+# Install CoppeliaSim as defined in SAS
+RUN mkdir -p ~/sas_install
+RUN cd ~/sas_install && git clone -b jazzy https://github.com/SmartArmStack/smart_arm_stack_ROS2.git sas
 RUN cd ~/sas_install/sas && git pull
 RUN chmod +x ~/sas_install/sas/.devel/scripts/setup_coppeliasim.sh
 RUN cd ~/sas_install/sas/.devel/scripts && bash -c "./setup_coppeliasim.sh"

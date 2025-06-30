@@ -1,4 +1,4 @@
-name: docker_with_coppeliasim_dispatch.yml
+name: Build Docker Image for CoppeliaSim
 on:
   workflow_dispatch:
 
@@ -19,12 +19,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push noble_coppeliasim
+      - name: Build and push coppeliasim
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64
           push: true
-          file: .devel/noble_coppeliasim/Dockerfile
+          file: .devel/coppeliasim/Dockerfile
           tags: | 
-              ${{ vars.DOCKER_USERNAME }}/noble_coppeliasim:latest
-              ${{ vars.DOCKER_USERNAME }}/noble_coppeliasim:470rev4
+              ${{ vars.DOCKER_USERNAME }}/coppeliasim:latest
+              ${{ vars.DOCKER_USERNAME }}/coppeliasim:noble_470rev4
