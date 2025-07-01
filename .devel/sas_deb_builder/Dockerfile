@@ -1,12 +1,7 @@
-# From juanjo's dqrobotics_ros_jazzy
+# This image won't be uploaded to docker hub therefore not much concern with size
 FROM juanjqo/ubuntu_24_dqrobotics_ros_jazzy
-ARG ROS_DOMAIN_ID=1
-ENV ROS_DOMAIN_ID=$ROS_DOMAIN_ID
 SHELL ["/bin/bash", "-c"]
 ENV BASH_ENV="/etc/bash_env"
-
-# ROS DOMAIN SETUP
-RUN echo "export ROS_DOMAIN_ID=$ROS_DOMAIN_ID" >> ~/.bashrc
 
 # SAS-RELATED THINGS (no need for recursive here)
 RUN mkdir -p ~/sas_ws/src

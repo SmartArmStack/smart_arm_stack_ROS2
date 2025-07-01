@@ -29,7 +29,15 @@ tar -xf "${COPPELIASIM_FILE}"
 rm "${COPPELIASIM_FILE}"
 
 echo "Setting environment variables for ${COPPELIASIM_FILE}."
-echo "export COPPELIASIM_PATH='${HOME}/utils/CoppeliaSim_Edu_${COPPELIASIM_RELEASE}_${UBUNTU_VERSION}'">> ~/.bashrc
-## We don't want expansion of $COPPELIASIM_PATH so that the script is still useful if the path changes.
-# shellcheck disable=SC2016
-echo 'alias coppeliasim="$COPPELIASIM_PATH/coppeliaSim.sh &"' >> ~/.bashrc
+COPPELIASIM_PATH="${HOME}/utils/CoppeliaSim_Edu_${COPPELIASIM_RELEASE}_${UBUNTU_VERSION}"
+
+# Add path for interactive scripts
+echo "export COPPELIASIM_PATH=${COPPELIASIM_PATH}" \
+>> ~/.bashrc
+# Add path for noninteractive scripts
+echo "export COPPELIASIM_PATH=${COPPELIASIM_PATH}" \
+>> /etc/bash_env
+
+# Aliases do not expand in non-interactive shells
+echo "alias coppeliasim=${COPPELIASIM_PATH}/coppeliaSim.sh &" \
+>> ~/.bashrc

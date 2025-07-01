@@ -1,4 +1,3 @@
-# From juanjo's dqrobotics_ros_jazzy
 FROM juanjqo/ubuntu_24_dqrobotics_ros_jazzy
 SHELL ["/bin/bash", "-c"]
 ENV BASH_ENV="/etc/bash_env"
