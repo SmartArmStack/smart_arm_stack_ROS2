@@ -2,11 +2,12 @@ FROM juanjqo/ubuntu_24_dqrobotics_ros_jazzy
 SHELL ["/bin/bash", "-c"]
 ENV BASH_ENV="/etc/bash_env"
 
-# Make directory and download sas installation instructions
-RUN mkdir -p ~/sas_install
-RUN cd ~/sas_install && git clone -b jazzy https://github.com/SmartArmStack/smart_arm_stack_ROS2.git sas
+# Branch of this repository from which to download the install script
+ARG BRANCH=jazzy
 
-# Install SAS
-RUN chmod +x ~/sas_install/sas/install.sh
-RUN bash -c '~/sas_install/sas/install.sh'
-
+# Run install script
+RUN mkdir -p ~/sas_install \
+&& cd ~/sas_install \
+&& curl -OL "https://raw.githubusercontent.com/SmartArmStack/smart_arm_stack_ROS2/refs/heads/${BRANCH}/install.sh" \
+&& chmod +x install.sh \
+&& bash -c "./install.sh"
