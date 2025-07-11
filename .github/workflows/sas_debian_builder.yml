@@ -125,7 +125,5 @@ jobs:
           file: .devel/sas/Dockerfile
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          tags: |
-           ${{ vars.DOCKER_USERNAME }}/sas:latest
-           # ${{ vars.DOCKER_USERNAME }}/sas:jazzy
+          tags: ${{ vars.DOCKER_USERNAME }}/sas:jazzy
 
