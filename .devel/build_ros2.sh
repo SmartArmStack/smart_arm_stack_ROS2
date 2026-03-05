@@ -49,8 +49,8 @@ fakeroot debian/rules binary
 sas_pkg_array=(
 "sas_core"
 "sas_msgs"
-"sas_common"
 "sas_conversions"
+"sas_common"
 "sas_datalogger"
 "sas_robot_driver"
 "sas_robot_kinematics"
