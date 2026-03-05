@@ -12,6 +12,9 @@ RUN sudo apt-get update -q \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Update dqrobotics to latest version
+RUN python3 -m pip install --upgrade dqrobotics --break-system-packages
+
 # Run install script
 RUN mkdir -p ~/sas_install \
 && cd ~/sas_install \
