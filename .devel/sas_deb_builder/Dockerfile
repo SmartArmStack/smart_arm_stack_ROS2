@@ -10,6 +10,9 @@ RUN sudo apt-get update -q \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Update dqrobotics to latest version
+RUN python3 -m pip install --upgrade dqrobotics --break-system-packages
+
 # SAS-RELATED THINGS (no need for recursive here)
 RUN mkdir -p ~/sas_ws/src
 RUN cd ~/sas_ws/src && git clone -b jazzy https://github.com/SmartArmStack/smart_arm_stack_ROS2.git sas
