@@ -1,0 +1,23 @@
+name: sas isolated package build
+
+on: [workflow_call]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: apt update
+        run: sudo apt-get update && sudo apt-get upgrade -y
+        
+      - name: build
+        run: |
+          cd docker
+          docker compose build
+
+      - name: test
+        run: |
+          cd docker
+          docker compose up    
