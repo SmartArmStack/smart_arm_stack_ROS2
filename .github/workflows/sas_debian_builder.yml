@@ -67,7 +67,7 @@ jobs:
           ls -lah
           echo -e "$PGP_PRIVATE_KEY" | gpg --import
           gpg --armor --export "murilomarinho@ieee.org" > KEY.gpg
-          dpkg-scanpackages --multiversion . > Packages
+          $ ( dpkg-scanpackages --multiversion . ; dpkg-scanpackages --multiversion --type ddeb . ) > Packages
           gzip -k -f Packages
           apt-ftparchive release . > Release
           gpg --default-key "murilomarinho@ieee.org" -abs -o - Release > Release.gpg
