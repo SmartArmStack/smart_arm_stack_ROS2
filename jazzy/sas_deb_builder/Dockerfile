@@ -14,8 +14,8 @@ RUN sudo apt-get update -q \
 RUN python3 -m pip install --upgrade dqrobotics --break-system-packages
 
 # Build scripts
-COPY --from=sas_repo . /root/sas_ws/src/sas
+COPY --from=sas_repo prebuild_ros2.sh build_ros2.sh jazzy/rosdep_sas_lgpl.yaml /root/sas_ws/src/sas/
 
 WORKDIR /root/sas_ws/src/sas
 RUN chmod +x prebuild_ros2.sh && . prebuild_ros2.sh
-RUN chmod +x build_ros2.sh && . build_ros2.sh
+RUN chmod +x build_ros2.sh && . build_ros2.sh jazzy noble
