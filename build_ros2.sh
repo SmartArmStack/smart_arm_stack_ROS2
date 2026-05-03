@@ -10,9 +10,9 @@ set -e
 export DEB_BUILD_OPTIONS=parallel=4
 
 # ROS2 version
-rosv="jazzy"
+rosv=$1
 # Ubuntu version
-ubuntuv="noble"
+ubuntuv=$2
 
 PRE_BUILD() {
 # Remove the debian folder just in case. In ROS1 and catkin this was an issue

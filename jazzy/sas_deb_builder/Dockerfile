@@ -13,12 +13,9 @@ RUN sudo apt-get update -q \
 # Update dqrobotics to latest version
 RUN python3 -m pip install --upgrade dqrobotics --break-system-packages
 
-# SAS-RELATED THINGS (no need for recursive here)
-RUN mkdir -p ~/sas_ws/src
-RUN cd ~/sas_ws/src && git clone -b jazzy https://github.com/SmartArmStack/smart_arm_stack_ROS2.git sas
+# Build scripts
+COPY --from=sas_repo . /root/sas_ws/src/sas
 
-# BUILDER THINGS
-RUN chmod +x ~/sas_ws/src/sas/.devel/prebuild_ros2.sh
-RUN cd ~/sas_ws/src/sas/.devel && bash -c "./prebuild_ros2.sh"
-RUN chmod +x ~/sas_ws/src/sas/.devel/build_ros2.sh
-RUN cd ~/sas_ws/src/sas/.devel && bash -c "./build_ros2.sh"
+WORKDIR /root/sas_ws/src/sas
+RUN chmod +x prebuild_ros2.sh && . prebuild_ros2.sh
+RUN chmod +x build_ros2.sh && . build_ros2.sh
