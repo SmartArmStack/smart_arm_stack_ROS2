@@ -1,0 +1,16 @@
+sas_core:
+  ubuntu: ['ros-lyrical-sas-core']
+sas_msgs:
+  ubuntu: ['ros-lyrical-sas-msgs']
+sas_common:
+  ubuntu: ['ros-lyrical-sas-common']
+sas_clock:
+  ubuntu: ['ros-lyrical-sas-clock']
+sas_conversions:
+  ubuntu: ['ros-lyrical-sas-conversions']
+sas_datalogger:
+  ubuntu: ['ros-lyrical-sas-datalogger']
+sas_robot_driver:
+  ubuntu: ['ros-lyrical-sas-robot-driver']
+sas_robot_kinematics:
+  ubuntu: ['ros-lyrical-sas-robot-kinematics']
