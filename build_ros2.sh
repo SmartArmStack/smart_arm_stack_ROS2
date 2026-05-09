@@ -48,21 +48,21 @@ fakeroot debian/rules binary
 # Packages in https://github.com/SmartArmStack/
 sas_pkg_array=(
 "sas_core"
-"sas_msgs"
-"sas_conversions"
-"sas_common"
-"sas_datalogger"
-"sas_robot_driver"
-"sas_robot_kinematics"
-"sas_robot_driver_denso"
+#"sas_msgs"
+#"sas_conversions"
+#"sas_common"
+#"sas_datalogger"
+#"sas_robot_driver"
+#"sas_robot_kinematics"
+#"sas_robot_driver_denso"
 )
 
 # Packages in https://github.com/MarinhoLab/
 marinholab_pkg_array=(
-"sas_robot_driver_coppeliasim"
-"sas_robot_driver_kuka"
-"sas_robot_driver_ur"
-"sas_force_sensor_bota"
+#"sas_robot_driver_coppeliasim"
+#"sas_robot_driver_kuka"
+#"sas_robot_driver_ur"
+#"sas_force_sensor_bota"
 )
 
 ####################################################################
