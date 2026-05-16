@@ -1,15 +1,10 @@
 # This image won't be uploaded to docker hub therefore not much concern with size
-FROM lyrical/ros2:latest
+FROM ghcr.io/marinholab/ros:lyrical
 SHELL ["/bin/bash", "-c"]
 ENV BASH_ENV="/etc/bash_env"
 
 # Update apt-get
-RUN sudo apt-get update -q \
-    && sudo apt-get upgrade -y \
-    && sudo apt-get autoremove -y \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
+RUN apt-get update -q && apt-get upgrade -y
 # Update dqrobotics to latest version
 RUN python3 -m pip install --upgrade dqrobotics --break-system-packages
 

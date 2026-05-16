@@ -74,11 +74,11 @@ if [ ! -f "$HOME/rosdep_sas_lgpl.yaml" ]; then
     ln -s "$PWD/rosdep_sas_lgpl.yaml" "$HOME/rosdep_sas_lgpl.yaml"
 
     # Rosdep
-    sudo rosdep init
+    rosdep init
 
     # Add sas packages to rosdep
     cd ~ || exit 1
-    echo "yaml file:///$HOME/rosdep_sas_lgpl.yaml" | sudo tee -a /etc/ros/rosdep/sources.list.d/20-default.list
+    echo "yaml file:///$HOME/rosdep_sas_lgpl.yaml" | tee -a /etc/ros/rosdep/sources.list.d/20-default.list
 
     # Update rosdep
     rosdep update
@@ -123,7 +123,7 @@ echo "version=${VERSION}" > SAS_VERSION
 ####################################################################
 
 # Remove all related packages. The || true is so that it doesn't annoy us when something wasn't installed to begin with.
-sudo apt-get remove ros-"$rosv"-sas* -y || true
+apt-get remove ros-"$rosv"-sas* -y || true
 
 ####################################################################
 #                   Build and install incrementally
@@ -138,6 +138,6 @@ for pkg_name in "${combined_pkg_array[@]}"; do
   cd ..
   # Install package but replace _ by -. E.g. sas_core becomes sas-core.
   # https://stackoverflow.com/questions/3306007/replace-a-string-in-shell-script-using-a-variable
-  sudo dpkg -i ros-"$rosv"-"${pkg_name//_/-}"_*"$ubuntuv"*.deb
+  dpkg -i ros-"$rosv"-"${pkg_name//_/-}"_*"$ubuntuv"*.deb
   ${var//12345678/$replace}
 done
