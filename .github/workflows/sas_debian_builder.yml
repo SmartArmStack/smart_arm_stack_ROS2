@@ -8,6 +8,7 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-24.04', 'ubuntu-24.04-arm']
+        ros: ['jazzy', 'lyrical']
     outputs:
       version: ${{ steps.extract.outputs.version }}
     steps:
@@ -16,18 +17,18 @@ jobs:
       - name: Build image
         run: |
           cd .devel
-          chmod +x build_container.sh && ./build_container.sh sas_deb_builder
+          chmod +x build_container.sh && ./build_container.sh sas_deb_builder/${{ matrix.ros }}
       - name: Extract debian files
         id: extract
         run: |
           cd .devel
-          chmod +x extract_debian_from_container.sh && ./extract_debian_from_container.sh
+          chmod +x extract_debian_from_container.sh && ./extract_debian_from_container.sh ${{ matrix.ros }}
           cd upload/extract
           cat SAS_VERSION >> "$GITHUB_OUTPUT"
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: debian-packages-${{ matrix.os }}
+          name: debian-packages-${{ matrix.os }}-${{ matrix.ros }}
           path: .devel/upload/extract/*
 
   gh_release:
@@ -103,6 +104,9 @@ jobs:
     needs: deploy_ppa_page
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ros: [ 'jazzy', 'lyrical' ]
 
     steps:
       - uses: actions/checkout@v2
@@ -123,8 +127,8 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          file: .devel/sas/Dockerfile
+          file: ${{ matrix.ros }}/sas/Dockerfile
           #cache-from: type=gha
           #cache-to: type=gha,mode=max
-          tags: ${{ vars.DOCKER_USERNAME }}/sas:jazzy
+          tags: ${{ vars.DOCKER_USERNAME }}/sas:${{ matrix.ros }}
 
