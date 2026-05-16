@@ -49,7 +49,7 @@ fakeroot debian/rules binary
 sas_pkg_array=(
 "sas_core"
 "sas_msgs"
-#"sas_conversions"
+"sas_conversions"
 #"sas_common"
 #"sas_datalogger"
 #"sas_robot_driver"
@@ -119,11 +119,11 @@ VERSION=$(date +"%-y.%-m.%-d%H%M%S")
 echo "version=${VERSION}" > SAS_VERSION
 
 ####################################################################
-#                   Remove current installation
+#                  Check with colcon first
 ####################################################################
 
-# Remove all related packages. The || true is so that it doesn't annoy us when something wasn't installed to begin with.
-apt-get remove ros-"$rosv"-sas* -y || true
+source /opt/ros/"$rosv"/setup.bash
+colcon build
 
 ####################################################################
 #                   Build and install incrementally
