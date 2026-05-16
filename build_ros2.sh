@@ -48,7 +48,7 @@ fakeroot debian/rules binary
 # Packages in https://github.com/SmartArmStack/
 sas_pkg_array=(
 "sas_core"
-#"sas_msgs"
+"sas_msgs"
 #"sas_conversions"
 #"sas_common"
 #"sas_datalogger"
