@@ -60,7 +60,7 @@ sas_pkg_array=(
 # Packages in https://github.com/MarinhoLab/
 marinholab_pkg_array=(
 "sas_robot_driver_coppeliasim"
-#"sas_robot_driver_kuka"
+"sas_robot_driver_kuka"
 #"sas_robot_driver_ur"
 #"sas_force_sensor_bota"
 )
