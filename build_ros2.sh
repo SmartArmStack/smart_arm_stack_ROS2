@@ -50,7 +50,7 @@ sas_pkg_array=(
 "sas_core"
 "sas_msgs"
 "sas_conversions"
-#"sas_common"
+"sas_common"
 #"sas_datalogger"
 #"sas_robot_driver"
 #"sas_robot_kinematics"
