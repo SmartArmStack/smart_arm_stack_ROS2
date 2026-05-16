@@ -16,12 +16,10 @@ jobs:
         uses: actions/checkout@v4
       - name: Build image
         run: |
-          cd .devel
           chmod +x build_container.sh && ./build_container.sh sas_deb_builder/${{ matrix.ros }}
       - name: Extract debian files
         id: extract
         run: |
-          cd .devel
           chmod +x extract_debian_from_container.sh && ./extract_debian_from_container.sh ${{ matrix.ros }}
           cd upload/extract
           cat SAS_VERSION >> "$GITHUB_OUTPUT"
@@ -29,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: debian-packages-${{ matrix.os }}-${{ matrix.ros }}
-          path: .devel/upload/extract/*
+          path: upload/extract/*
 
   gh_release:
     needs: debian_builder
