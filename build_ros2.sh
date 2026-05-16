@@ -53,7 +53,7 @@ sas_pkg_array=(
 "sas_common"
 "sas_datalogger"
 "sas_robot_driver"
-#"sas_robot_kinematics"
+"sas_robot_kinematics"
 #"sas_robot_driver_denso"
 )
 
