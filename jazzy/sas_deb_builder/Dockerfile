@@ -1,5 +1,5 @@
 # This image won't be uploaded to docker hub therefore not much concern with size
-FROM juanjqo/ubuntu_24_dqrobotics_ros_jazzy
+FROM ghcr.io/marinholab/gazebo:jazzy
 SHELL ["/bin/bash", "-c"]
 ENV BASH_ENV="/etc/bash_env"
 
