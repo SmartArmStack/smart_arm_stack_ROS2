@@ -11,7 +11,7 @@ sudo apt-get upgrade -y
 sudo apt-get autoremove -y
 
 # Install sas
-sudo apt-get install ros-jazzy-sas-*
+sudo apt-get install -y ros-jazzy-sas-*
 
 # Remove unused apt info
 apt-get clean
