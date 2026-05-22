@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ros: [ 'jazzy', 'lyrical' ]
+        ros: [ 'jazzy'] #, 'lyrical' ]
 
     steps:
       - uses: actions/checkout@v2
