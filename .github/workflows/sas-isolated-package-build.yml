@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          submodules: true
+          submodules: recusive
 
       - name: build
         run: |
