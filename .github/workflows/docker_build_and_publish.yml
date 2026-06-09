@@ -1,5 +1,8 @@
 name: docker_build_and_publish.yml
-on: [workflow_dispatch]
+on: 
+  workflow_dispatch:
+  schedule: # One hour after `ros` image build
+    - cron: '0 21 * * 5'
 
 jobs:
   deploy_docker_image:
