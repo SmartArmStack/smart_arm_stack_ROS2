@@ -14,3 +14,5 @@ sas_robot_driver:
   ubuntu: ['ros-jazzy-sas-robot-driver']
 sas_robot_kinematics:
   ubuntu: ['ros-jazzy-sas-robot-kinematics']
+sas_force_sensor:
+  ubuntu: ['ros-jazzy-sas-force-sensor']
