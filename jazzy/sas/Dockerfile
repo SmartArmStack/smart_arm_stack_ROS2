@@ -13,7 +13,7 @@ RUN sudo apt-get update -q \
 # Update dqrobotics to latest version
 RUN python3 -m pip install --upgrade dqrobotics --break-system-packages
 # Install Python graphics stack used throughout sas
-RUN python3 -m pip install PyQt6 pyqtgraph --break-system-packages
+RUN python3 -m pip install PyQt6 pyqtgraph PyOpenGL PyOpenGL_accelerate --break-system-packages
 ## https://github.com/bhowiebkr/laser-level-webcam/issues/28
 RUN python3 -m pip install pyqtdarktheme==2.1.0 --ignore-requires-python --break-system-packages
 
