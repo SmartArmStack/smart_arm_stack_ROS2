@@ -130,17 +130,21 @@ echo "version=${VERSION}" > SAS_VERSION
 # through the bloom loop below; it is built from its own
 # debian/ packaging (dpkg-buildflags-based CMake rules).
 #
+# The full clone (no --depth) lets sas_cpp's tools/version.sh count
+# commits since the monthly tag; tools/bump-changelog.sh (needs dch
+# from devscripts, see prebuild_ros2.sh) stamps debian/changelog with
+# that rolling YY.MM.NN version before dpkg-buildpackage.
+#
 # The .deb is written to tmp_ros2/ so the PPA extract step
 # (cp -f /root/tmp_ros2/*.deb) ships it together with the
-# ROS package .debs. The version comes from sas_cpp's
-# debian/changelog (static), while the content follows the
-# cloned branch, so bump sas_cpp's changelog when promoting.
+# ROS package .debs.
 ####################################################################
 
 echo "Building libmarinholab-sas-core (sas_cpp @ ${SAS_CPP_REF:-main})"
-git clone --depth 1 --branch "${SAS_CPP_REF:-main}" \
+git clone --branch "${SAS_CPP_REF:-main}" \
     https://github.com/MarinhoLab/sas_cpp.git
 cd sas_cpp
+bash tools/bump-changelog.sh
 dpkg-buildpackage -us -uc -b
 cd ..
 dpkg -i ./libmarinholab-sas-core_*.deb
