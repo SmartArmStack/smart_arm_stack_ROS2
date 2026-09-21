@@ -121,6 +121,31 @@ VERSION=$(date +"%-y.%-m.%-d%H%M%S")
 echo "version=${VERSION}" > SAS_VERSION
 
 ####################################################################
+#   libmarinholab-sas-core .deb (non-ROS C++ core, MarinhoLab/sas_cpp)
+#
+# The sas_core thin wrapper requires this .deb (find_package
+# marinholab_sas_core), so it must be built and installed before
+# colcon build below and before the ROS package .deb builds.
+# It is not a colcon package (no package.xml), so it cannot go
+# through the bloom loop below; it is built from its own
+# debian/ packaging (dpkg-buildflags-based CMake rules).
+#
+# The .deb is written to tmp_ros2/ so the PPA extract step
+# (cp -f /root/tmp_ros2/*.deb) ships it together with the
+# ROS package .debs. The version comes from sas_cpp's
+# debian/changelog (static), while the content follows the
+# cloned branch, so bump sas_cpp's changelog when promoting.
+####################################################################
+
+echo "Building libmarinholab-sas-core (sas_cpp @ ${SAS_CPP_REF:-main})"
+git clone --depth 1 --branch "${SAS_CPP_REF:-main}" \
+    https://github.com/MarinhoLab/sas_cpp.git
+cd sas_cpp
+dpkg-buildpackage -us -uc -b
+cd ..
+dpkg -i ./libmarinholab-sas-core_*.deb
+
+####################################################################
 #                  Check with colcon first
 ####################################################################
 
