@@ -16,3 +16,17 @@ sas_robot_kinematics:
   ubuntu: ['ros-jazzy-sas-robot-kinematics']
 sas_force_sensor:
   ubuntu: ['ros-jazzy-sas-force-sensor']
+
+# Non-ROS dependencies of sas_robot_driver_gazebo (declared in its
+# package.xml). They are not in the stock rosdep sources, so bloom-generate
+# rosdebian aborts on the first unresolvable key; map them to the real
+# packages that provide them.
+# libmarinholab-sas-core is built by this repo (MarinhoLab/sas_cpp) before
+# the ROS-package loop in build_ros2.sh.
+libmarinholab-sas-core:
+  ubuntu: ['libmarinholab-sas-core']
+# The CMake packages sdformat14 / gz-math7 come from these OSRF debs.
+sdformat_vendor:
+  ubuntu: ['libsdformat14-dev']
+gz_math_vendor:
+  ubuntu: ['libgz-math7-dev']
