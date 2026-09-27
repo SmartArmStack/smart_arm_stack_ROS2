@@ -161,9 +161,12 @@ for cpp_repo in "${cpp_deb_array[@]}"; do
   dpkg-buildpackage -us -uc -b
   # Install by the Source: name declared in debian/control (robust to the
   # .deb name not matching the repo name, e.g. sas_cpp -> libmarinholab-sas-core).
+  # dpkg-buildpackage writes the .deb into the parent of the source dir, so
+  # we are already back in tmp_ros2/ here. The trailing glob must stay
+  # unquoted or the * is passed through literally and nothing matches.
   cpp_src="$(sed -nE 's/^Source:[[:space:]]*(.*)$/\1/p' debian/control | head -n1)"
   cd ..
-  dpkg -i "./${cpp_src}_*.deb"
+  dpkg -i ./"${cpp_src}"_*.deb
 done
 
 ####################################################################
