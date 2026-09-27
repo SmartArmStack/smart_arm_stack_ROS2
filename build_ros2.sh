@@ -121,33 +121,50 @@ VERSION=$(date +"%-y.%-m.%-d%H%M%S")
 echo "version=${VERSION}" > SAS_VERSION
 
 ####################################################################
-#   libmarinholab-sas-core .deb (non-ROS C++ core, MarinhoLab/sas_cpp)
+#   Non-ROS C++ .debs (MarinhoLab, built from their own debian/ packaging)
 #
-# The sas_core thin wrapper requires this .deb (find_package
-# marinholab_sas_core), so it must be built and installed before
-# colcon build below and before the ROS package .deb builds.
-# It is not a colcon package (no package.xml), so it cannot go
-# through the bloom loop below; it is built from its own
-# debian/ packaging (dpkg-buildflags-based CMake rules).
+# These are ROS-independent C++ libraries with no package.xml, so they
+# cannot go through the bloom loop below. Each is built and installed
+# before colcon build, from its own debian/ packaging
+# (dpkg-buildflags-based CMake rules) via dpkg-buildpackage.
 #
-# The full clone (no --depth) lets sas_cpp's tools/version.sh count
-# commits since the monthly tag; tools/bump-changelog.sh (needs dch
-# from devscripts, see prebuild_ros2.sh) stamps debian/changelog with
-# that rolling YY.MM.NN version before dpkg-buildpackage.
+# Add new ones to cpp_deb_array as they arrive. Every package must share
+# the layout used here:
+#   - a debian/ directory buildable with dpkg-buildpackage
+#   - tools/bump-changelog.sh (needs dch from devscripts, see
+#     prebuild_ros2.sh) that stamps the rolling YY.MM.NN version
+#   - tools/version.sh (full clone, no --depth, so it can count commits
+#     since the monthly tag)
 #
-# The .deb is written to tmp_ros2/ so the PPA extract step
-# (cp -f /root/tmp_ros2/*.deb) ships it together with the
-# ROS package .debs.
+# The ref is overridable per package via an env var named <REPO>_REF
+# (e.g. SAS_CPP_REF, SOLVER_QPOASES_REF); defaults to the repo's default
+# branch. The .deb is installed by the Source: name in its debian/control,
+# and lands in tmp_ros2/ so the PPA extract step (cp -f
+# /root/tmp_ros2/*.deb) ships it with the ROS package .debs.
 ####################################################################
 
-echo "Building libmarinholab-sas-core (sas_cpp @ ${SAS_CPP_REF:-main})"
-git clone --branch "${SAS_CPP_REF:-main}" \
-    https://github.com/MarinhoLab/sas_cpp.git
-cd sas_cpp
-bash tools/bump-changelog.sh
-dpkg-buildpackage -us -uc -b
-cd ..
-dpkg -i ./libmarinholab-sas-core_*.deb
+# Repos in https://github.com/MarinhoLab/ that produce a libmarinholab-* .deb
+cpp_deb_array=(
+"sas_cpp"
+"solver-qpoases"
+)
+
+for cpp_repo in "${cpp_deb_array[@]}"; do
+  # Ref override env var, e.g. sas_cpp -> SAS_CPP_REF
+  cpp_ref_var="$(echo "$cpp_repo" | tr '[:lower:]-' '[:upper:]__')_REF"
+  cpp_ref="${!cpp_ref_var:-main}"
+  echo "Building from ${cpp_repo} @ ${cpp_ref}"
+  git clone --branch "$cpp_ref" \
+      "https://github.com/MarinhoLab/${cpp_repo}.git" --recurse-submodules
+  cd "$cpp_repo"
+  bash tools/bump-changelog.sh
+  dpkg-buildpackage -us -uc -b
+  # Install by the Source: name declared in debian/control (robust to the
+  # .deb name not matching the repo name, e.g. sas_cpp -> libmarinholab-sas-core).
+  cpp_src="$(sed -nE 's/^Source:[[:space:]]*(.*)$/\1/p' debian/control | head -n1)"
+  cd ..
+  dpkg -i "./${cpp_src}_*.deb"
+done
 
 ####################################################################
 #                  Check with colcon first
