@@ -25,6 +25,10 @@ sas_force_sensor:
 # the ROS-package loop in build_ros2.sh.
 libmarinholab-sas-core:
   ubuntu: ['libmarinholab-sas-core']
+# libmarinholab-solver-qpoases is built by this repo
+# (MarinhoLab/solver-qpoases) before the ROS-package loop in build_ros2.sh.
+libmarinholab-solver-qpoases:
+  ubuntu: ['libmarinholab-solver-qpoases']
 # The CMake packages sdformat14 / gz-math7 come from these OSRF debs.
 sdformat_vendor:
   ubuntu: ['libsdformat14-dev']

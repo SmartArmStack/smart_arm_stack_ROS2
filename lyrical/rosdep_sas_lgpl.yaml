@@ -14,3 +14,11 @@ sas_robot_driver:
   ubuntu: ['ros-lyrical-sas-robot-driver']
 sas_robot_kinematics:
   ubuntu: ['ros-lyrical-sas-robot-kinematics']
+
+# Non-ROS C++ libraries built by this repo (see build_ros2.sh) before the
+# ROS-package loop. They are not in the stock rosdep sources, so map them to
+# the real packages that provide them.
+libmarinholab-sas-core:
+  ubuntu: ['libmarinholab-sas-core']
+libmarinholab-solver-qpoases:
+  ubuntu: ['libmarinholab-solver-qpoases']
