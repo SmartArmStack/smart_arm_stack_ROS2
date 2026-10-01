@@ -147,6 +147,7 @@ echo "version=${VERSION}" > SAS_VERSION
 cpp_deb_array=(
 "sas_cpp"
 "solver-qpoases"
+"solver-osqp"
 )
 
 for cpp_repo in "${cpp_deb_array[@]}"; do
