@@ -17,6 +17,9 @@ RUN python3 -m pip install PyQt6 pyqtgraph PyOpenGL --break-system-packages
 ## https://github.com/bhowiebkr/laser-level-webcam/issues/28
 RUN python3 -m pip install pyqtdarktheme==2.1.0 --ignore-requires-python --break-system-packages
 
+# marinholab packages in PyPI
+python3 -m pip install marinholab-sas-core marinholab-solvers-qpoases marinholab-solvers-osqp --break-system-packages
+
 # Run install script
 COPY --from=sas_repo jazzy/install.sh /root/sas_install/install.sh
 RUN cd ~/sas_install \
