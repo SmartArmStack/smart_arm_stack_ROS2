@@ -3,10 +3,10 @@ SHELL ["/bin/bash", "-c"]
 ENV BASH_ENV="/etc/bash_env"
 
 # Update apt-get
-RUN sudo apt-get update -q \
-    && apt-get install -y libxcb-cursor-dev \ 
-    && sudo apt-get upgrade -y \
-    && sudo apt-get autoremove -y \
+RUN apt-get update -q \
+    && apt-get install -y libxcb-cursor-dev \
+    && apt-get upgrade -y \
+    && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -24,4 +24,6 @@ RUN python3 -m pip install marinholab-sas-core marinholab-solvers-qpoases marinh
 COPY --from=sas_repo jazzy/install.sh /root/sas_install/install.sh
 RUN cd ~/sas_install \
     && chmod +x install.sh \
-    && bash -c "./install.sh"
+    && bash -c "./install.sh" \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
