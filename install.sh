@@ -11,8 +11,29 @@ sudo apt-get upgrade -y
 sudo apt-get autoremove -y
 
 # Install sas
-sudo apt-get install ros-jazzy-sas-*
+#
+# The solver libraries are named explicitly because nothing in the ROS package
+# set depends on them (they are linked PRIVATE and their symbols are hidden),
+# so installing the ros-jazzy-sas-* set alone leaves them out -- and
+# find_package(marinholab_solver_*) then fails for anything building against
+# them. See MarinhoLab/solver-qpoases and MarinhoLab/solver-osqp.
+sudo apt-get install -y \
+    libmarinholab-solver-qpoases \
+    libmarinholab-solver-osqp
+
+# The ros-jazzy-sas-* packages are expanded by hand instead of being handed to
+# apt as a glob. Unquoted, the shell leaves the pattern literal when nothing in
+# the current directory matches it, and apt then reads it as a regex that also
+# selects the -dbgsym packages, whose unresolvable dependencies can abort the
+# whole transaction. Expanding it here keeps the debug symbols out.
+mapfile -t sas_packages < <(apt-cache pkgnames "ros-jazzy-sas-" 2>/dev/null \
+    | grep -E "^ros-jazzy-sas-" | grep -Ev -- '-dbgsym$' | sort -u)
+if ((${#sas_packages[@]} == 0)); then
+    echo "install.sh: no ros-jazzy-sas-* packages found. Is the apt source reachable?" >&2
+    exit 1
+fi
+sudo apt-get install -y "${sas_packages[@]}"
 
 # Remove unused apt info
-apt-get clean
-rm -rf /var/lib/apt/lists/*
+sudo apt-get clean
+sudo rm -rf /var/lib/apt/lists/*
