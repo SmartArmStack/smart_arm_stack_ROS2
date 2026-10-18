@@ -29,6 +29,11 @@ libmarinholab-sas-core:
 # (MarinhoLab/solver-qpoases) before the ROS-package loop in build_ros2.sh.
 libmarinholab-solver-qpoases:
   ubuntu: ['libmarinholab-solver-qpoases']
+# libdqrobotics-interface-mujoco (with MuJoCo's libmujoco.so), a dependency
+# of sas_robot_driver_mujoco, is built by this repo from
+# juanjqo/cpp-interface-mujoco before the ROS-package loop in build_ros2.sh.
+libdqrobotics-interface-mujoco:
+  ubuntu: ['libdqrobotics-interface-mujoco']
 # The CMake packages sdformat14 / gz-math7 come from these OSRF debs.
 sdformat_vendor:
   ubuntu: ['libsdformat14-dev']

@@ -65,6 +65,7 @@ marinholab_pkg_array=(
 "sas_robot_driver_ur"
 "sas_force_sensor_bota"
 "sas_robot_driver_gazebo"
+"sas_robot_driver_mujoco"
 )
 
 ####################################################################
@@ -136,27 +137,41 @@ echo "version=${VERSION}" > SAS_VERSION
 #   - tools/version.sh (full clone, no --depth, so it can count commits
 #     since the monthly tag)
 #
+# An entry is a repo name in https://github.com/MarinhoLab/, or owner/repo
+# for one hosted elsewhere (e.g. juanjqo/cpp-interface-mujoco).
+#
 # The ref is overridable per package via an env var named <REPO>_REF
-# (e.g. SAS_CPP_REF, SOLVER_QPOASES_REF); defaults to the repo's default
-# branch. The .deb is installed by the Source: name in its debian/control,
+# (e.g. SAS_CPP_REF, SOLVER_QPOASES_REF, CPP_INTERFACE_MUJOCO_REF); defaults
+# to main. The .deb is installed by the Source: name in its debian/control,
 # and lands in tmp_ros2/ so the PPA extract step (cp -f
 # /root/tmp_ros2/*.deb) ships it with the ROS package .debs.
 ####################################################################
 
-# Repos in https://github.com/MarinhoLab/ that produce a libmarinholab-* .deb
+# Repos that produce a C++ .deb, in build order (a later one may need an
+# earlier one installed: cpp-interface-mujoco needs libmarinholab-sas-core).
 cpp_deb_array=(
 "sas_cpp"
 "solver-qpoases"
 "solver-osqp"
+# libdqrobotics-interface-mujoco (with MuJoCo's libmujoco.so), for
+# sas_robot_driver_mujoco
+"juanjqo/cpp-interface-mujoco"
 )
 
-for cpp_repo in "${cpp_deb_array[@]}"; do
+for cpp_entry in "${cpp_deb_array[@]}"; do
+  # "repo" -> MarinhoLab/repo; "owner/repo" as given.
+  if [[ "$cpp_entry" == */* ]]; then
+    cpp_slug="$cpp_entry"
+  else
+    cpp_slug="MarinhoLab/${cpp_entry}"
+  fi
+  cpp_repo="${cpp_slug##*/}"
   # Ref override env var, e.g. sas_cpp -> SAS_CPP_REF
   cpp_ref_var="$(echo "$cpp_repo" | tr '[:lower:]-' '[:upper:]__')_REF"
   cpp_ref="${!cpp_ref_var:-main}"
-  echo "Building from ${cpp_repo} @ ${cpp_ref}"
+  echo "Building from ${cpp_slug} @ ${cpp_ref}"
   git clone --branch "$cpp_ref" \
-      "https://github.com/MarinhoLab/${cpp_repo}.git" --recurse-submodules
+      "https://github.com/${cpp_slug}.git" --recurse-submodules
   cd "$cpp_repo"
   bash tools/bump-changelog.sh
   dpkg-buildpackage -us -uc -b
