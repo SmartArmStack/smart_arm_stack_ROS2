@@ -13,3 +13,8 @@ sudo apt-get install -y devscripts
 
 # sas_robot_driver_gazebo
 sudo apt-get install libgz-transport13-dev
+
+# cpp-interface-mujoco (libdqrobotics-interface-mujoco, for
+# sas_robot_driver_mujoco): GLFW, OpenGL and EGL. MuJoCo itself is
+# downloaded and built by its CMake (FetchContent) during dpkg-buildpackage.
+sudo apt-get install -y libglfw3-dev libgl-dev libegl-dev ca-certificates
