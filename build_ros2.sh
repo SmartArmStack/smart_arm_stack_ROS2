@@ -66,6 +66,7 @@ marinholab_pkg_array=(
 "sas_force_sensor_bota"
 "sas_robot_driver_gazebo"
 "sas_robot_driver_mujoco"
+"sas_robot_driver_brov2"
 )
 
 ####################################################################
