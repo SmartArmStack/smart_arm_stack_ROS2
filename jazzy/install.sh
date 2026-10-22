@@ -129,7 +129,7 @@ log "user=$(id -un) root=$(if [[ $(id -u) -eq 0 ]]; then echo yes; else echo no;
 
 # --- Apt sources -------------------------------------------------------------
 sas_url="$SAS_APT_URL"
-gazebo_url="http://packages.osrfoundation.org/gazebo/ubuntu-stable"
+gazebo_url="https://packages.osrfoundation.org/gazebo/ubuntu-stable"
 ros_url="http://packages.ros.org/ros2/ubuntu"
 dq_url="http://ppa.launchpadcontent.net/dqrobotics-dev/development/ubuntu"
 dq_fingerprint=C8871E1A46BFD53FF3E9D3D9156C628C782BD123
@@ -138,19 +138,33 @@ gazebo_keyring=/etc/apt/keyrings/gazebo-stable.gpg
 ros_keyring=/etc/apt/keyrings/ros2.gpg
 dq_keyring=/etc/apt/keyrings/dqrobotics-dev-development.gpg
 
-# Prefer the file an earlier run already wrote, so that two entries for the same
-# URI cannot end up with different Signed-By values and break apt-get update.
-existing_source_for() {
-  local host="${1#*://}"
-  grep -rlF "${host%/}" /etc/apt/sources.list.d/*.list 2>/dev/null | head -n 1 || true
+sas_list=/etc/apt/sources.list.d/smartarmstack.list
+gazebo_list=/etc/apt/sources.list.d/gazebo-stable.list
+ros_list=/etc/apt/sources.list.d/ros2.list
+dq_list=/etc/apt/sources.list.d/dqrobotics-dev-ubuntu-development.list
+
+# apt refuses two entries for the same URI with different Signed-By values
+# ("Conflicting values set for option Signed-By"), so every URI is configured
+# only when no apt file references it already: the main file and
+# sources.list.d, one-line or deb822 syntax, symlinks included.
+sas_host="${sas_url#*://}"
+gazebo_host="${gazebo_url#*://}"
+ros_host="packages.ros.org/ros2/ubuntu"
+dq_host="dqrobotics-dev/development"
+
+uri_known() { # $1 = host/path substring of the URI
+  grep -RqF "$1" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null
 }
 
-sas_source="$(existing_source_for "$sas_url")"
-sas_source="${sas_source:-/etc/apt/sources.list.d/smartarmstack.list}"
-gazebo_source="$(existing_source_for "$gazebo_url")"
-gazebo_source="${gazebo_source:-/etc/apt/sources.list.d/gazebo-stable.list}"
-if [[ -f "$sas_source" ]]; then vlog "reusing the existing apt source file $sas_source"; fi
-if [[ -f "$gazebo_source" ]]; then vlog "reusing the existing apt source file $gazebo_source"; fi
+# Removes a list file this script wrote when the same URI also appears in
+# /etc/apt/sources.list, the one place this script will not touch.
+drop_dup_list() { # $1 = our list file, $2 = our keyring, $3 = uri substring
+  if [[ -f "$1" ]] && grep -qF "$2" "$1" 2>/dev/null &&
+    grep -qF "$3" /etc/apt/sources.list 2>/dev/null; then
+    vlog "$(basename "$1") clashes with /etc/apt/sources.list: removing it"
+    as_root rm -f "$1"
+  fi
+}
 
 # Overwriting a file that is already correct would invalidate apt's package lists.
 write_if_changed() { # $1 = file to write from, $2 = where to write it
@@ -172,26 +186,43 @@ if ((DRY_RUN)) && ! command -v curl >/dev/null 2>&1; then
   vlog "dry-run without curl: skipping the signing key downloads"
 fi
 
-if ((!skip_downloads)); then
-  curl -fsSL --compressed "$sas_url/KEY.gpg" | gpg --dearmor >"$tmp/sas.key" ||
-    die "could not download/dearmor the SAS signing key from $sas_url/KEY.gpg"
-  curl -fsSL https://packages.osrfoundation.org/gazebo.gpg -o"$tmp/gazebo.key" ||
-    die "could not download the OSRF signing key"
+# The SAS LGPL repo (flat './' repository).
+if uri_known "$sas_host"; then
+  vlog "the SAS repo is already an apt source: leaving it alone"
+  drop_dup_list "$sas_list" "$sas_keyring" "$sas_host"
+else
+  if ((!skip_downloads)); then
+    curl -fsSL --compressed "$sas_url/KEY.gpg" | gpg --dearmor >"$tmp/sas.key" ||
+      die "could not download/dearmor the SAS signing key from $sas_url/KEY.gpg"
+  fi
+  printf 'deb [arch=%s signed-by=%s] %s ./\n' "$arch" "$sas_keyring" "$sas_url" >"$tmp/sas.list"
+  write_if_changed "$tmp/sas.key" "$sas_keyring"
+  write_if_changed "$tmp/sas.list" "$sas_list"
 fi
-printf 'deb [arch=%s signed-by=%s] %s ./\n' "$arch" "$sas_keyring" "$sas_url" >"$tmp/sas.list"
-printf 'deb [arch=%s signed-by=%s] %s %s main\n' \
-  "$arch" "$gazebo_keyring" "$gazebo_url" "$codename" >"$tmp/gazebo.list"
 
-write_if_changed "$tmp/sas.key" "$sas_keyring"
-write_if_changed "$tmp/sas.list" "$sas_source"
-write_if_changed "$tmp/gazebo.key" "$gazebo_keyring"
-write_if_changed "$tmp/gazebo.list" "$gazebo_source"
+# Gazebo stable (libgz-math7-dev, libsdformat14-dev).
+if uri_known "$gazebo_host"; then
+  vlog "the OSRF gazebo repo is already an apt source: leaving it alone"
+  drop_dup_list "$gazebo_list" "$gazebo_keyring" "$gazebo_host"
+else
+  if ((!skip_downloads)); then
+    curl -fsSL https://packages.osrfoundation.org/gazebo.gpg -o"$tmp/gazebo.key" ||
+      die "could not download the OSRF signing key"
+  fi
+  printf 'deb [arch=%s signed-by=%s] %s %s main\n' \
+    "$arch" "$gazebo_keyring" "$gazebo_url" "$codename" >"$tmp/gazebo.list"
+  write_if_changed "$tmp/gazebo.key" "$gazebo_keyring"
+  write_if_changed "$tmp/gazebo.list" "$gazebo_list"
+fi
 
 # The ros-jazzy-sas-* packages depend on ros-jazzy-* debs, so the ROS 2 repo
-# must be configured too. Any apt source (one-line or deb822) that already
-# points at packages.ros.org, e.g. ros2-apt-source from an earlier ROS 2
-# installation, makes this step a no-op.
-if [[ -z "$(grep -rlF packages.ros.org /etc/apt/sources.list.d 2>/dev/null | head -n 1)" ]]; then
+# must be configured too, e.g. on a machine that never had ROS 2. An existing
+# ROS 2 apt source anywhere, such as ros2-apt-source or an entry kept in
+# /etc/apt/sources.list from an older ROS 2 installation, makes this a no-op.
+if uri_known "$ros_host"; then
+  vlog "the ROS 2 repo is already an apt source: leaving it alone"
+  drop_dup_list "$ros_list" "$ros_keyring" "$ros_host"
+else
   if ((!skip_downloads)); then
     curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key |
       gpg --dearmor >"$tmp/ros.key" ||
@@ -200,16 +231,17 @@ if [[ -z "$(grep -rlF packages.ros.org /etc/apt/sources.list.d 2>/dev/null | hea
   printf 'deb [arch=%s signed-by=%s] %s %s main\n' \
     "$arch" "$ros_keyring" "$ros_url" "$codename" >"$tmp/ros.list"
   write_if_changed "$tmp/ros.key" "$ros_keyring"
-  write_if_changed "$tmp/ros.list" /etc/apt/sources.list.d/ros2.list
-else
-  vlog "packages.ros.org is already an apt source: leaving it alone"
+  write_if_changed "$tmp/ros.list" "$ros_list"
 fi
 
 # libmarinholab-sas-core depends on libdqrobotics from the DQ Robotics
 # development PPA. Any apt source that already points at that PPA, e.g. one
 # added by an earlier 'add-apt-repository ppa:dqrobotics-dev/development',
 # makes this step a no-op.
-if [[ -z "$(grep -rlF dqrobotics-dev/development /etc/apt/sources.list.d 2>/dev/null | head -n 1)" ]]; then
+if uri_known "$dq_host"; then
+  vlog "the DQ Robotics development PPA is already an apt source: leaving it alone"
+  drop_dup_list "$dq_list" "$dq_keyring" "$dq_host"
+else
   if ((!skip_downloads)); then
     curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x$dq_fingerprint" |
       gpg --dearmor >"$tmp/dq.key" ||
@@ -218,9 +250,7 @@ if [[ -z "$(grep -rlF dqrobotics-dev/development /etc/apt/sources.list.d 2>/dev/
   printf 'deb [arch=%s signed-by=%s] %s %s main\n' \
     "$arch" "$dq_keyring" "$dq_url" "$codename" >"$tmp/dq.list"
   write_if_changed "$tmp/dq.key" "$dq_keyring"
-  write_if_changed "$tmp/dq.list" /etc/apt/sources.list.d/dqrobotics-dev-ubuntu-development.list
-else
-  vlog "the DQ Robotics development PPA is already an apt source: leaving it alone"
+  write_if_changed "$tmp/dq.list" "$dq_list"
 fi
 
 apt_run update -q || die "apt-get update failed: check the network and the apt sources above"
@@ -248,8 +278,17 @@ fi
 packages+=(libgz-math7-dev libsdformat14-dev)
 log "installing ${#packages[@]} package(s): ${packages[*]}"
 
-apt_run install -y "${packages[@]}" ||
-  die "package installation failed: check the SAS, ROS 2, OSRF and DQ Robotics apt sources above"
+# Mirrors (especially packages.osrfoundation.org) fail downloads from time to
+# time; apt-get install is safe to repeat, so give it a few attempts.
+attempts=0
+until apt_run install -y "${packages[@]}"; do
+  ((++attempts))
+  if ((attempts >= 3)); then
+    die "package installation failed after 3 attempts: check the network and the SAS, ROS 2, OSRF and DQ Robotics apt sources above"
+  fi
+  log "install attempt $attempts failed; retrying in $((attempts * 5))s"
+  sleep $((attempts * 5))
+done
 
 if ((DRY_RUN)); then
   log "dry-run complete: nothing was changed."
