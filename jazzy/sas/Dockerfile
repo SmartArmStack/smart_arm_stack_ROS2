@@ -12,6 +12,10 @@ RUN apt-get update -q \
 
 # Update dqrobotics to latest version
 RUN python3 -m pip install --upgrade dqrobotics --break-system-packages
+# The apt scipy (python3-scipy) is built for numpy 1 and fails to import under the pip numpy 2 that
+# dqrobotics brings ("numpy.core.multiarray failed to import"), which breaks, e.g., sas_datalogger.
+# Install a scipy built for numpy 2 over it (pip cannot uninstall Debian's, and numpy is already there).
+RUN python3 -m pip install "scipy>=1.14" --ignore-installed --no-deps --break-system-packages
 # Install Python graphics stack used throughout sas
 RUN python3 -m pip install PyQt6 pyqtgraph PyOpenGL --break-system-packages
 ## https://github.com/bhowiebkr/laser-level-webcam/issues/28
