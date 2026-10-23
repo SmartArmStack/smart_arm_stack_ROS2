@@ -62,6 +62,11 @@ jobs:
         env:
           PGP_PRIVATE_KEY: ${{ secrets.PGP_PRIVATE_KEY }}
         run: |
+          # apt-ftparchive comes from apt-utils; not guaranteed on GitHub
+          # runner images (see sas_debian_builder_noncommercial run
+          # 39978886103: 'apt-ftparchive: command not found').
+          sudo apt-get update -q
+          sudo apt-get install -y --no-install-recommends apt-utils
           cd ppa
           ls -lah
           echo -e "$PGP_PRIVATE_KEY" | gpg --import
