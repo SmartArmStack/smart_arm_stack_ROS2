@@ -39,3 +39,11 @@ sdformat_vendor:
   ubuntu: ['libsdformat14-dev']
 gz_math_vendor:
   ubuntu: ['libgz-math7-dev']
+# The CMake packages gz-transport13 / gz-sim8 come from these OSRF debs
+# (installed in the builder base image), same rationale as sdformat_vendor /
+# gz_math_vendor above; mapping them here keeps bloom-generate rosdebian from
+# emitting Depends on ros-jazzy-*-vendor packages that are not installed.
+gz_transport_vendor:
+  ubuntu: ['libgz-transport13-dev']
+gz_sim_vendor:
+  ubuntu: ['libgz-sim8-dev']
