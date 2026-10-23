@@ -152,16 +152,19 @@ gazebo_host="${gazebo_url#*://}"
 ros_host="packages.ros.org/ros2/ubuntu"
 dq_host="dqrobotics-dev/development"
 
-uri_known() { # $1 = host/path substring of the URI
-  grep -RqF "$1" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null
+uri_known_outside() { # $1 = host/path substring of the URI, $2 = our own list file
+  local other
+  other="$(grep -RlF "$1" /etc/apt/sources.list /etc/apt/sources.list.d 2>/dev/null |
+    grep -vxF "$2" | head -n 1)"
+  [[ -n "$other" ]]
 }
 
-# Removes a list file this script wrote when the same URI also appears in
-# /etc/apt/sources.list, the one place this script will not touch.
-drop_dup_list() { # $1 = our list file, $2 = our keyring, $3 = uri substring
-  if [[ -f "$1" ]] && grep -qF "$2" "$1" 2>/dev/null &&
-    grep -qF "$3" /etc/apt/sources.list 2>/dev/null; then
-    vlog "$(basename "$1") clashes with /etc/apt/sources.list: removing it"
+# Removes a list file this script wrote earlier when the URI has since been
+# taken over by another apt file (main file, some other sources.list.d entry,
+# deb822, symlink...), so apt never sees two entries with different Signed-By.
+drop_our_list() { # $1 = our list file, $2 = our keyring
+  if [[ -f "$1" ]] && grep -qF "$2" "$1" 2>/dev/null; then
+    vlog "$(basename "$1") clashes with another apt source: removing it"
     as_root rm -f "$1"
   fi
 }
@@ -187,9 +190,9 @@ if ((DRY_RUN)) && ! command -v curl >/dev/null 2>&1; then
 fi
 
 # The SAS LGPL repo (flat './' repository).
-if uri_known "$sas_host"; then
+if uri_known_outside "$sas_host" "$sas_list"; then
   vlog "the SAS repo is already an apt source: leaving it alone"
-  drop_dup_list "$sas_list" "$sas_keyring" "$sas_host"
+  drop_our_list "$sas_list" "$sas_keyring"
 else
   if ((!skip_downloads)); then
     curl -fsSL --compressed "$sas_url/KEY.gpg" | gpg --dearmor >"$tmp/sas.key" ||
@@ -201,9 +204,9 @@ else
 fi
 
 # Gazebo stable (libgz-math7-dev, libsdformat14-dev).
-if uri_known "$gazebo_host"; then
+if uri_known_outside "$gazebo_host" "$gazebo_list"; then
   vlog "the OSRF gazebo repo is already an apt source: leaving it alone"
-  drop_dup_list "$gazebo_list" "$gazebo_keyring" "$gazebo_host"
+  drop_our_list "$gazebo_list" "$gazebo_keyring"
 else
   if ((!skip_downloads)); then
     curl -fsSL https://packages.osrfoundation.org/gazebo.gpg -o"$tmp/gazebo.key" ||
@@ -219,9 +222,9 @@ fi
 # must be configured too, e.g. on a machine that never had ROS 2. An existing
 # ROS 2 apt source anywhere, such as ros2-apt-source or an entry kept in
 # /etc/apt/sources.list from an older ROS 2 installation, makes this a no-op.
-if uri_known "$ros_host"; then
+if uri_known_outside "$ros_host" "$ros_list"; then
   vlog "the ROS 2 repo is already an apt source: leaving it alone"
-  drop_dup_list "$ros_list" "$ros_keyring" "$ros_host"
+  drop_our_list "$ros_list" "$ros_keyring"
 else
   if ((!skip_downloads)); then
     curl -fsSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key |
@@ -238,9 +241,9 @@ fi
 # development PPA. Any apt source that already points at that PPA, e.g. one
 # added by an earlier 'add-apt-repository ppa:dqrobotics-dev/development',
 # makes this step a no-op.
-if uri_known "$dq_host"; then
+if uri_known_outside "$dq_host" "$dq_list"; then
   vlog "the DQ Robotics development PPA is already an apt source: leaving it alone"
-  drop_dup_list "$dq_list" "$dq_keyring" "$dq_host"
+  drop_our_list "$dq_list" "$dq_keyring"
 else
   if ((!skip_downloads)); then
     curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x$dq_fingerprint" |
